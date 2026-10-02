@@ -1,0 +1,46 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===== YOUR GM LIST =====
+    // Put the user ID (UID) of every GM account between the brackets, in quotes,
+    // separated by commas. Find UIDs in the Firebase console under Authentication > Users.
+    // Example: request.auth.uid in ['Xy12AbC...', 'Pq98ZzK...']
+    function isGM() {
+      return request.auth != null && request.auth.uid in [
+        'iPnBmTHt2gYrOE3nU9Qe9KRMWrM2'
+      ];
+    }
+
+    // Live galaxy, public history, news, missions, operations, orders, events and battles.
+    // Anyone with the link can read them. Only GMs can change them.
+    match /galaxy/{doc} {
+      allow read: if doc != 'gm' || isGM();
+      allow write: if isGM();
+    }
+    match /galaxy/{doc}/{coll}/{id} {
+      allow read: if doc != 'gm' || isGM();
+      allow write: if isGM();
+    }
+
+    // GM only: drafts, the full synced galaxy, snapshots, GM notes, GM logs and sessions.
+    match /galaxy/gm/{rest=**} {
+      allow read, write: if isGM();
+    }
+
+    // Extra campaigns: public parts, then GM-only parts.
+    match /camp/{rest=**} {
+      allow read: if true;
+      allow write: if isGM();
+    }
+    match /gmc/{rest=**} {
+      allow read, write: if isGM();
+    }
+
+    // The campaign list.
+    match /meta/{rest=**} {
+      allow read: if true;
+      allow write: if isGM();
+    }
+  }
+}
