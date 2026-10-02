@@ -1974,7 +1974,7 @@ document.addEventListener('keydown',e=>{
 /* ============ search ============ */
 const sysIndex=systems.map(s=>({k:'system',i:s.i,n:s.name,l:s.name.toLowerCase(),id:s.id.toLowerCase()}));
 let index=[];
-function buildIndex(){index=T.terr.filter(visibleTo).map(t=>({k:'territory',i:t.id,n:tName(t),l:tName(t).toLowerCase(),id:String(t.id).toLowerCase()})).concat(sysIndex.filter(e=>!systems[e.i].hv),planets.filter(p=>!p.hv&&p.faction!==UNK).map(p=>({k:'planet',i:p.i,n:p.name,l:p.name.toLowerCase(),id:p.id.toLowerCase()})));}
+function buildIndex(){index=T.terr.filter(visibleTo).map(t=>({k:'territory',i:t.id,n:tName(t),l:tName(t).toLowerCase(),id:String(t.id).toLowerCase()})).concat(systems.filter(s=>!s.hv).map(s=>({k:'system',i:s.i,n:s.name,l:s.name.toLowerCase(),id:s.id.toLowerCase()})),planets.filter(p=>!p.hv&&p.faction!==UNK).map(p=>({k:'planet',i:p.i,n:p.name,l:p.name.toLowerCase(),id:p.id.toLowerCase()})));}
 function subOf(r){if(r.k==='territory'){const t=T.terr[tIndex.get(r.i)];return t&&showStats(t)?`Territory, ${t.status.toLowerCase()}`:'Territory';}
   if(r.k==='system'){const t=T.terr[systems[r.i].sector];return`System in ${t?tName(t):'deep space'}`;}const p=planets[r.i];return`${p.env} planet, ${systems[p.system].name} system`;}
 const KORD={territory:0,system:1,planet:2};
@@ -2677,6 +2677,7 @@ function dSystem(sy){
   <p class="path">${t?lnk('territory',t.id,tName(t)):''}</p>
   <div class="kcount"><div><b>${vis.length}</b><span>Planets</span></div><div><b>${ctrl}</b><span>Controlled</span></div><div><b>${hot}</b><span>Contested</span></div><div><b>${sysMissionCount(sy)}</b><span>Available missions</span></div></div>
   <dl class="facts"><div><dt>Control</dt><dd>${chip(sy.faction)}</dd></div><div><dt>Star</dt><dd>${sy.star}</dd></div></dl>
+  ${gm&&store.canWrite?`<div class="form"><label>System name<input type="text" data-sysname="${sy.i}" maxlength="40" value="${esc(sy.name)}" placeholder="${esc(BASE_SYSNAME[sy.i])}"></label></div>`:''}
   ${inTheNews('system',sy.i)}
   <h3>Planets</h3><ul class="rows">${vis.map(p=>`<li><button class="row lnk" data-kind="planet" data-i="${p.i}"><i style="background:${p.envColor}"></i><span>${esc(p.name)}</span><span class="rs">${p.env}</span><span class="status"><i style="background:${STATUS_COLORS[p.status]}" title="${p.status}"></i></span></button></li>`).join('')}</ul>
   <h3>Lanes to</h3><div class="tags">${sy.links.filter(i=>!systems[i].hv).map(i=>{const o=systems[i];return`<span><button class="lnk chip" data-kind="system" data-i="${i}"><i style="background:${fc(o.faction)}"></i>${esc(o.name)}</button></span>`;}).join('')}</div>
@@ -2941,13 +2942,14 @@ const MAXF=FACTIONS.length;
 const BASEF=FACTIONS.map(f=>({...f}));
 const BASE_LANES=lanes.map(l=>[l.a,l.b]);
 const BASE_POS=systems.map(s=>[s.x,s.y]);
+const BASE_SYSNAME=systems.map(s=>s.name);
 const LANE_ST={open:'Open',blockaded:'Blockaded',dangerous:'Dangerous',destroyed:'Destroyed',secret:'Secret'};
 const LANE_DESC={open:'Traffic moves freely along this lane.',blockaded:'A blockade stops traffic along this lane.',dangerous:'Ships can still travel here, but crossings are risky.',destroyed:'This lane is unusable. It no longer connects the two systems.',secret:'Only GMs know this lane exists. It is left out of the player map.'};
 const LANE_COL={open:'#8FC1E3',blockaded:'#FF6B4A',dangerous:'#FFB547',destroyed:'#96A0AA',secret:'#B88CFF'};
 const lkey=(a,b)=>a<b?a+'-'+b:b+'-'+a;
 let posRev=0,laneStart=-1,dragSys=null,paint=null;
 const paintOpt={f:'',s:''};
-function emptyGX(){return{f:[],la:[],ld:[],ls:{},sp:{},pr:{},lt:{},ph:[]};}
+function emptyGX(){return{f:[],la:[],ld:[],ls:{},sp:{},pr:{},lt:{},ph:[],sn:{}};}
 const okSys=i=>Number.isInteger(i)&&i>=0&&i<systems.length;
 function parseGX(g){
   const out=emptyGX();if(!g||typeof g!=='object')return out;
@@ -2958,13 +2960,15 @@ function parseGX(g){
   const lk=new Set();for(const p of Array.isArray(g.la)?g.la:[]){const q=pair(p);if(q&&!lk.has(q.join('-'))){lk.add(q.join('-'));out.la.push(q);}}
   const dk=new Set();for(const p of Array.isArray(g.ld)?g.ld:[]){const q=pair(p);if(q&&!dk.has(q.join('-'))){dk.add(q.join('-'));out.ld.push(q);}}
   if(g.ls&&typeof g.ls==='object')for(const k of Object.keys(g.ls)){const m=/^(\d+)-(\d+)$/.exec(k);if(!m||!okSys(+m[1])||!okSys(+m[2]))continue;const st=g.ls[k];if(LANE_ST[st]&&st!=='open')out.ls[lkey(+m[1],+m[2])]=st;}
+  if(g.sn&&typeof g.sn==='object')for(const k of Object.keys(g.sn)){const i=+k,v=String(g.sn[k]||'').trim().slice(0,40);if(okSys(i)&&v&&v!==BASE_SYSNAME[i])out.sn[i]=v;}
   if(Array.isArray(g.ph)){const ids=new Set();for(const x of g.ph.slice(0,120)){const b=cleanBody(x);if(b&&b.id&&!ids.has(b.id)){ids.add(b.id);out.ph.push(b);}}}
   if(g.lt&&typeof g.lt==='object')for(const k of Object.keys(g.lt)){const m=/^(\d+)-(\d+)$/.exec(k);if(m&&okSys(+m[1])&&okSys(+m[2])&&g.lt[k])out.lt[lkey(+m[1],+m[2])]=1;}
   if(g.pr&&typeof g.pr==='object')for(const k of Object.keys(g.pr)){const v=Math.round(+g.pr[k]);if(typeof k==='string'&&k.length<=20&&Number.isFinite(v)&&v)out.pr[k]=clamp(v,-100,100);}
   if(g.sp&&typeof g.sp==='object')for(const k of Object.keys(g.sp)){const i=+k,p=g.sp[k];if(!okSys(i)||!Array.isArray(p))continue;const x=+p[0],y=+p[1];if(!isFinite(x)||!isFinite(y))continue;out.sp[i]=[clamp(Math.round(x),-GR*1.05,GR*1.05),clamp(Math.round(y),-GR*1.05,GR*1.05)];}
   return out;
 }
-function applyGX(){const g=(T&&T.gx)||emptyGX();applyFactions(g.f);applyPositions(g.sp);applyLanes(g);rebuildUIGrid();deriveSystems();}
+function applyGX(){const g=(T&&T.gx)||emptyGX();applyFactions(g.f);applyPositions(g.sp);applyLanes(g);applySysNames(g.sn||{});rebuildUIGrid();deriveSystems();}
+function applySysNames(sn){let ch=false;for(const sy of systems){const n=sn[sy.i]||BASE_SYSNAME[sy.i];if(sy.name!==n){sy.name=n;ch=true;}}if(ch){try{buildIndex();}catch(e){}dirty=true;}}
 function applyFactions(list){
   for(let i=0;i<MAXF;i++)Object.assign(FACTIONS[i],BASEF[i]);
   for(const e of list){const f=FACTIONS[e.i];if(!f||f.pseudo)continue;if(e.name)f.name=e.name;f.short=e.short||e.name||f.short;if(e.color)f.color=e.color;if(e.desc)f.desc=e.desc;f.unused=false;}
@@ -2994,7 +2998,8 @@ function sanitizeGX(g){
   for(const[a,b]of BASE_LANES){const k=lkey(a,b);if(secret.has(k)&&!ld.some(p=>p.join('-')===k))ld.push([Math.min(a,b),Math.max(a,b)]);}
   const ls={};for(const k of Object.keys(g.ls))if(g.ls[k]!=='secret')ls[k]=g.ls[k];
   const lt={};for(const k of Object.keys(g.lt||{}))if(!secret.has(k))lt[k]=1;
-  return{...g,la,ld,ls,lt,ph:(g.ph||[]).filter(b=>b.vis!=='hidden')};
+  const sn={};for(const k of Object.keys(g.sn||{})){const sy=systems[+k];if(sy&&sy.planets.some(pi=>effOf(draftOV,pi).vis!=='hidden'))sn[k]=g.sn[k];}
+  return{...g,la,ld,ls,lt,sn,ph:(g.ph||[]).filter(b=>b.vis!=='hidden')};
 }
 function laneSetOf(g){const del=new Set(g.ld.map(p=>p.join('-'))),m=new Map();for(const[a,b]of BASE_LANES){const k=lkey(a,b);if(!del.has(k))m.set(k,g.ls[k]||'open');}for(const[a,b]of g.la){const k=lkey(a,b);if(!m.has(k))m.set(k,g.ls[k]||'open');}return m;}
 function gxDiff(a,b){
@@ -3023,6 +3028,8 @@ function gxDiff(a,b){
   if(trc){lines.push(`${trc} trade route${trc===1?'':'s'} marked or unmarked`);count+=trc;}
   const pa=new Map((a.ph||[]).map(x=>[x.id,JSON.stringify(x)])),pb=new Map((b.ph||[]).map(x=>[x.id,JSON.stringify(x)]));let pha=0,phr=0,phc=0;
   for(const[k,v]of pb){if(!pa.has(k))pha++;else if(pa.get(k)!==v)phc++;}for(const k of pa.keys())if(!pb.has(k))phr++;
+  let snc=0;for(const k of new Set([...Object.keys(a.sn||{}),...Object.keys(b.sn||{})]))if((a.sn||{})[k]!==(b.sn||{})[k]){snc++;sys.add(+k);}
+  if(snc){lines.push(`${snc} star system${snc===1?'':'s'} renamed`);count+=snc;}
   if(pha)lines.push(`${pha} natural bod${pha===1?'y':'ies'} added`);if(phr)lines.push(`${phr} natural bod${phr===1?'y':'ies'} removed`);if(phc)lines.push(`${phc} natural bod${phc===1?'y':'ies'} changed`);count+=pha+phr+phc;
   return count?{lines,count,sys:[...sys]}:null;
 }
@@ -3069,7 +3076,8 @@ function dLane(k){
   <div class="actions"><button class="btn danger" data-act="ldel">Remove lane</button></div>`:''}
   <div class="actions"><button class="btn" data-act="fly">Zoom to lane</button></div>`;
 }
-dEl.addEventListener('change',e=>{const k=e.target.dataset.lane;if(k)setLaneStatus(k,e.target.value);const tr=e.target.dataset.ltrade;if(tr)setTrade([tr],e.target.checked);});
+dEl.addEventListener('change',e=>{const sn=e.target.dataset.sysname;if(sn!==undefined){const i=+sn,v=e.target.value.trim().slice(0,40);pushUndo();if(!T.gx.sn)T.gx.sn={};if(v&&v!==BASE_SYSNAME[i])T.gx.sn[i]=v;else delete T.gx.sn[i];gxChanged();toast(v?`System renamed to ${v}. Players see it when you sync.`:'System name reset.');return;}
+  const k=e.target.dataset.lane;if(k)setLaneStatus(k,e.target.value);const tr=e.target.dataset.ltrade;if(tr)setTrade([tr],e.target.checked);});
 dEl.addEventListener('click',e=>{const a=e.target.closest('[data-act]');if(!a||!sel)return;
   if(a.dataset.act==='ldel'&&sel.kind==='lane'){if(confirm('Remove this lane? You can undo this.'))deleteLane(sel.i);}
   else if(a.dataset.act==='sysreset'&&sel.kind==='system'){pushUndo();delete T.gx.sp[sel.i];gxChanged();toast('System moved back to its original position.');}});
@@ -3812,7 +3820,7 @@ function ordersStrip(where){const act=orderList().filter(o=>o.status==='active')
 /* ---------- galaxy events ---------- */
 function eventCard(e){const t=T.terr[tIndex.get(e.terr)];const cs=[];if(e.change.s)cs.push(`status ${e.change.s.toLowerCase()}`);if(e.change.th)cs.push(`threat ${e.change.th>0?'+':''}${e.change.th}`);if(e.change.f>=0)cs.push(`control to ${FACTIONS[e.change.f].short}`);
   return`<article class="gev"><div class="mohead"><span class="evtag">Galaxy event</span>${e.status!=='active'?`<span class="vis">${EV_S[e.status]}</span>`:''}${e.until?`<span class="dim">Until cycle ${e.until.cycle}, day ${e.until.day}</span>`:''}</div>
-  <h3>${esc(e.name)}</h3>${e.desc?`<p>${esc(e.desc)}</p>`:''}<div class="dim">${t?`${esc(tName(t))}, `:''}${e.planets.length} planet${e.planets.length===1?'':'s'} affected${cs.length&&gm?`: ${cs.join(', ')}`:''}</div></article>`;}
+  <h3>${esc(e.name)}</h3>${e.desc?`<p>${esc(e.desc)}</p>`:''}<div class="dim">${t?esc(tName(t)):''}${e.planets.length?`${t?', ':''}${e.planets.length} planet${e.planets.length===1?'':'s'} affected${cs.length&&gm?`: ${cs.join(', ')}`:''}`:''}</div></article>`;}
 function eventsStrip(){const act=eventList().filter(e=>e.status==='active');if(!act.length)return'';return`<section class="gevstrip">${act.slice(0,4).map(eventCard).join('')}</section>`;}
 function eventPlanets(terrId,filter){const ti=tIndex.get(terrId),t=T.terr[ti];if(!t)return[];const out=[];
   for(const si of t.systems)for(const pi of systems[si].planets){const e=effOf(draftOV,pi);if(filter.env&&e.e!==filter.env)continue;if(filter.feat&&!e.ft.includes(filter.feat))continue;if(filter.status&&e.s!==filter.status)continue;if(filter.faction>=0&&e.f!==filter.faction)continue;out.push(pi);}
@@ -4442,7 +4450,7 @@ async function loadSave(meta,asNew){if(saves.busy)return;
       if(!await saveCampaigns())return;}
     else{const a=await autosave(`Before loading "${meta.name}"`);if(!a&&!confirm('The safety autosave could not be made. Load anyway?'))return;}
     restoring=true;const r=await applyCampaign(target,body);
-    const c=CAMP.list.find(x=>x.id===target);if(c&&body.campaign&&body.campaign.clock){c.clock={cycle:body.campaign.clock.cycle|0||1,day:body.campaign.clock.day|0||1};await saveCampaigns();}
+    const c=CAMP.list.find(x=>x.id===target);if(c&&body.campaign&&body.campaign.clock){c.clock={cycle:body.campaign.clock.cycle|0||1,day:body.campaign.clock.day|0||1};if(!asNew&&body.campaign.name)c.name=String(body.campaign.name).slice(0,40);await saveCampaigns();}
     restoring=false;ownRevs.clear();connectCampaign(target);
     logEvent({kind:'draft',label:`Loaded save: ${meta.name}`,summary:`${asNew?'Loaded into a new campaign':'Campaign restored'} from the save made ${when(meta.at)} (${r.w} records written, ${r.del} removed).`},false);
     toast(asNew?`Loaded into a new campaign. You are now viewing it.`:`Loaded "${meta.name}". Ask any other GM with the map open to reload it.`);

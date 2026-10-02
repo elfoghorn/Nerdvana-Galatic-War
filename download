@@ -1,0 +1,11 @@
+# Campaign backups contain GM notes and drafts. Never commit them.
+*backup*.json
+galactic-war-backup-*.json
+# Service account keys must stay out of the repository.
+*-firebase-adminsdk-*.json
+sa.json
+service-account*.json
+# Firebase command line leftovers
+.firebase/
+firebase-debug.log
+firestore-debug.log

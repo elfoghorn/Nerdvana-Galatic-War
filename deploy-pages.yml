@@ -1,0 +1,38 @@
+# Publishes the war table to GitHub Pages every time you push to main.
+# One-time setup: in the repository, go to Settings > Pages and set Source to "GitHub Actions".
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths: ["public/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the Firebase settings are filled in
+        run: |
+          if grep -q "window.GW_FIREBASE = null;" public/index.html; then
+            echo "::warning::public/index.html still has window.GW_FIREBASE = null, so the site will run in browser-only mode. See SETUP.md step 3."
+          fi
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+      - id: deployment
+        uses: actions/deploy-pages@v4
