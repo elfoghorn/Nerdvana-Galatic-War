@@ -8,7 +8,7 @@ service cloud.firestore {
     // Example: request.auth.uid in ['Xy12AbC...', 'Pq98ZzK...']
     function isGM() {
       return request.auth != null && request.auth.uid in [
-        'iPnBmTHt2gYrOE3nU9Qe9KRMWrM2'
+        'PASTE-GM-UID-HERE'
       ];
     }
 

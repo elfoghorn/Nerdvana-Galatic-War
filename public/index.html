@@ -8,22 +8,17 @@
 /* GALACTIC WAR SETTINGS
    To self-host with password-protected GM tools, replace null below with
    your Firebase web app config (see SETUP.md). Leave it as null on claude.ai. */
-window.GW_FIREBASE = {
-  apiKey: "AIzaSyBHXblHrdMI-RHhHlgP_upOGHmyjS_TN1E",
-  authDomain: "nerdvana-galatic-war.firebaseapp.com",
-  projectId: "nerdvana-galatic-war",
-  storageBucket: "nerdvana-galatic-war.firebasestorage.app",
-  messagingSenderId: "715014886233",
-  appId: "1:715014886233:web:645d7409e4d5d9649e3248",
-  measurementId: "G-XL2BWJHP6M"
-};
+window.GW_FIREBASE = null;
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;500;600;700&family=Saira:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --space:#06152A;
+  --space:#E6ECF2;
+  --brand-ink:#0B2340;
+  --signal-ink:#9A5800;
+  --brand-glow:0 1px 8px rgba(255,255,255,.9);
   --signal:#FFB547;
   --panel:rgba(236,243,248,.97);
   --panel-solid:#ECF3F8;
@@ -41,6 +36,10 @@ window.GW_FIREBASE = {
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
+    --space:#06152A;
+    --brand-ink:#E8F1F7;
+    --signal-ink:#FFB547;
+    --brand-glow:0 1px 8px rgba(6,21,42,.9);
     --panel:rgba(8,27,50,.94);
   --panel-solid:#0A1F38;
     --panel-solid:#0A1F38;
@@ -53,6 +52,10 @@ window.GW_FIREBASE = {
   }
 }
 :root[data-theme="dark"]{
+  --space:#06152A;
+  --brand-ink:#E8F1F7;
+  --signal-ink:#FFB547;
+  --brand-glow:0 1px 8px rgba(6,21,42,.9);
   --panel:rgba(8,27,50,.94);
   --panel-solid:#0A1F38;
   --panel-edge:rgba(143,193,227,.26);
@@ -78,9 +81,9 @@ button{cursor:pointer}
 /* top bar */
 .top{position:absolute;top:12px;left:12px;right:12px;display:flex;align-items:center;gap:14px;pointer-events:none;z-index:5}
 .top>*{pointer-events:auto}
-.brand{display:flex;align-items:baseline;gap:12px;padding:6px 14px 7px;color:#E8F1F7;text-shadow:0 1px 8px rgba(6,21,42,.9)}
+.brand{display:flex;align-items:baseline;gap:12px;padding:6px 14px 7px;color:var(--brand-ink);text-shadow:var(--brand-glow)}
 .brand h1{margin:0;font-family:var(--display);font-weight:700;font-size:30px;line-height:1;letter-spacing:.01em}
-.brand .clock{font-family:var(--display);font-size:15px;color:#FFB547}
+.brand .clock{font-family:var(--display);font-size:15px;color:var(--signal-ink)}
 .spacer{flex:1}
 .searchbox{position:relative;width:min(340px,40vw)}
 .searchbox input{width:100%;padding:9px 12px 9px 34px;border-radius:4px;border:1px solid var(--panel-edge);background:var(--panel);}
@@ -164,7 +167,7 @@ button{cursor:pointer}
 .crumbs{position:absolute;left:50%;transform:translateX(-50%);bottom:14px;display:flex;align-items:center;gap:2px;padding:5px 8px;z-index:4;max-width:calc(100% - 640px);white-space:nowrap;overflow:hidden}
 .crumbs button{border:0;background:none;padding:3px 7px;border-radius:3px;font-family:var(--display);font-size:15px;overflow:hidden;text-overflow:ellipsis}
 .crumbs button:hover{background:var(--hover)}
-.crumbs button[aria-current="true"]{color:#FFB547;font-weight:600}
+.crumbs button[aria-current="true"]{color:var(--signal-ink);font-weight:600}
 .crumbs .sep{opacity:.45}
 .zoom{position:absolute;right:372px;bottom:14px;display:flex;flex-direction:column;z-index:4;overflow:hidden}
 .zoom button{border:0;background:none;width:36px;height:34px;font-size:18px}
@@ -220,7 +223,7 @@ body.gm .gm-only{display:block}
 .range input{grid-column:1/-1;accent-color:#FFB547;width:100%;margin:2px 0 0}
 .form{margin:8px 0 14px}
 .form label,.form .flabel{display:grid;gap:3px;margin-bottom:10px;font-size:12px;color:var(--text-dim)}
-.form input[type=text],.form textarea,.form select{font-size:14px;color:var(--text);padding:7px 9px;border:1px solid var(--panel-edge);border-radius:3px;background:transparent;width:100%}
+.form input[type=text],.form input[type=password],.form input[type=number],.form textarea,.form select{font-size:14px;color:var(--text);padding:7px 9px;border:1px solid var(--panel-edge);border-radius:3px;background:transparent;width:100%}
 .form select option{background:#0B2340;color:#E8F1F7}
 .form textarea{resize:vertical;min-height:64px;font-family:var(--body);line-height:1.4}
 .colorrow{display:flex;gap:8px;align-items:center}
@@ -346,7 +349,7 @@ body.gm .gm-btn{display:block}
 .camphead{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap}
 .camphead .actions{margin:0}
 .big{font-size:26px!important;margin:0!important}
-.clockbig{font-family:var(--display);font-size:18px;color:#FFB547}
+.clockbig{font-family:var(--display);font-size:18px;color:var(--signal-ink)}
 .dim{color:var(--text-dim);font-size:12px}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
 .kpis b{display:block;font-family:var(--display);font-size:30px;font-weight:600;line-height:1.05}
@@ -588,6 +591,25 @@ button.nchip:hover{background:var(--hover)}
 .siwrap input[type=email],.siwrap input[type=password]{font-size:15px;color:var(--text);padding:8px 10px;border:1px solid var(--panel-edge);border-radius:3px;background:transparent;width:100%}
 .sierr{min-height:20px;font-size:13px;color:var(--text);margin:4px 0 0}
 .siwrap .actions{align-items:center}
+
+/* ---- save slots ---- */
+.saves{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.saverow{border:1px solid var(--panel-edge);border-radius:4px;padding:10px 12px;display:grid;gap:6px}
+.saverow b{font-family:var(--display);font-size:17px}
+.saverow .actions{margin:0}.saverow .btn{padding:5px 10px}
+.saveform{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:760px}
+@media (max-width: 760px){.saveform{grid-template-columns:1fr}}
+
+/* ---- appearance ---- */
+.themepick{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:4px;margin-bottom:6px}
+.themepick button{border:1px solid var(--panel-edge);background:none;border-radius:4px;padding:6px 4px;font-size:13px}
+.themepick button[aria-pressed="true"]{background:var(--text);color:var(--panel-solid);border-color:var(--text);font-weight:600}
+.iconbtn{display:inline-flex;align-items:center;justify-content:center;padding:7px 10px}
+
+/* ---- Discord ---- */
+.dcform{max-width:760px}
+.dcform input[type=password],.dcform input[type=text]{font-family:var(--body)}
+.steps{margin:0 0 8px;padding-left:20px;display:grid;gap:6px}
 </style>
 </head>
 <body>
@@ -600,6 +622,7 @@ button.nchip:hover{background:var(--hover)}
   <div class="viewnav" role="group" aria-label="View"><button data-view="news" aria-pressed="false">News</button><button data-view="map" aria-pressed="true">Map</button></div>
   <div class="spacer"></div>
   <button class="topbtn" id="viewtoggle">News</button>
+  <button class="topbtn iconbtn hide-sm" id="themebtn" aria-label="Switch to light mode" title="Switch to light mode"></button>
   <button class="railtoggle" id="railtoggle" aria-expanded="false">Layers</button>
   <button class="topbtn" id="tlbtn" aria-pressed="false">Territories</button>
   <button class="topbtn gm-btn" id="plbtn" aria-pressed="false">Planets</button>
@@ -631,6 +654,8 @@ button.nchip:hover{background:var(--hover)}
     <p class="savestate" id="savestate" aria-live="polite"></p>
   </section>
   <div class="stats" id="stats"></div>
+  <h3>Appearance</h3>
+  <div class="themepick" role="group" aria-label="Appearance"><button data-theme-pick="dark" aria-pressed="true">Dark</button><button data-theme-pick="light" aria-pressed="false">Light</button><button data-theme-pick="system" aria-pressed="false">Match device</button></div>
   <h3>Map layers</h3>
   <div class="layers" id="layers"></div>
   <h3>Highlight planets</h3>
@@ -677,7 +702,7 @@ button.nchip:hover{background:var(--hover)}
 </aside>
 
 <section class="warroom panel" id="warroom" aria-label="War room">
-  <div class="wrhead"><h2>War room</h2><div class="wrtabs" role="tablist" aria-label="War room sections"><button role="tab" data-wt="overview" aria-selected="true">Overview</button><button role="tab" data-wt="sync" aria-selected="false">Sync</button><button role="tab" data-wt="factions" aria-selected="false">Factions</button><button role="tab" data-wt="missions" aria-selected="false">Missions</button><button role="tab" data-wt="war" aria-selected="false">War engine</button><button role="tab" data-wt="battles" aria-selected="false">Battles</button><button role="tab" data-wt="audit" aria-selected="false">Change log</button><button role="tab" data-wt="campaigns" aria-selected="false">Campaigns</button></div><button class="wrclose" id="wrclose" aria-label="Close the war room">&times;</button></div>
+  <div class="wrhead"><h2>War room</h2><div class="wrtabs" role="tablist" aria-label="War room sections"><button role="tab" data-wt="overview" aria-selected="true">Overview</button><button role="tab" data-wt="sync" aria-selected="false">Sync</button><button role="tab" data-wt="factions" aria-selected="false">Factions</button><button role="tab" data-wt="missions" aria-selected="false">Missions</button><button role="tab" data-wt="war" aria-selected="false">War engine</button><button role="tab" data-wt="battles" aria-selected="false">Battles</button><button role="tab" data-wt="saves" aria-selected="false">Saves</button><button role="tab" data-wt="discord" aria-selected="false">Discord</button><button role="tab" data-wt="audit" aria-selected="false">Change log</button><button role="tab" data-wt="campaigns" aria-selected="false">Campaigns</button></div><button class="wrclose" id="wrclose" aria-label="Close the war room">&times;</button></div>
   <div class="wrbody" id="wrbody"></div>
 </section>
 
@@ -698,6 +723,7 @@ button.nchip:hover{background:var(--hover)}
   <div class="actions"><button class="btn primary" id="sibtn">Sign in</button><button class="btn" id="sicancel">Cancel</button><button class="lnk" id="sireset">Forgotten password</button></div>
 </div></div>
 <input type="file" id="importfile" accept=".json,application/json" hidden>
+<input type="file" id="savefile" accept=".json,application/json" hidden>
 <div id="prevbanner" class="panel" role="status"><span><b>Preview.</b> This is the public galaxy as players will see it after you sync.</span><button class="btn primary" id="prevsync">Review and sync</button><button class="btn" id="prevexit">Back to editing</button></div>
 <div id="hlbanner" class="panel" role="status"></div>
 <div id="drawerr" class="panel" role="alert"></div>
@@ -908,7 +934,11 @@ const fmt=n=>n.toLocaleString('en-GB');
 const hexToRgb=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
 const hexA=(h,a)=>{const[r,g,b]=hexToRgb(h);return`rgba(${r},${g},${b},${a})`;};
 let FRGB=FACTIONS.map(f=>hexToRgb(f.color));
-const SIGNAL='#FFB547',LINE='143,193,227';
+const fc=i=>FCOL[i]||(FACTIONS[i]&&fc(i))||'#7C8A99';
+const MP_DARK={bg:'#06152A',stars:'#C8DCF0',fog:'rgba(6,21,42,0.62)',dim:'rgba(6,21,42,0.5)',hover:'rgba(143,193,227,0.06)',halo:'rgba(4,14,28,0.8)',outline:'rgba(4,14,28,0.9)',ink:'rgba(232,241,247,0.95)',inkSys:'rgba(214,230,242,0.9)',inkCap:'#FFFFFF',inkPl:'rgba(232,241,247,0.88)',hoverRing:'rgba(255,255,255,0.7)',vtx:'rgba(143,193,227,0.85)',vtxHi:'#FFFFFF',vtxIn:'#E8F1F7',selLabel:'#FFC56E',signal:'#FFB547',line:'143,193,227',trade:'rgba(233,196,106,0.38)',disc:'rgba(4,14,28,0.85)',fieldA:1};
+const MP_LIGHT={bg:'#E6ECF2',stars:'#8DA2B8',fog:'rgba(196,207,220,0.8)',dim:'rgba(230,236,242,0.62)',hover:'rgba(11,35,64,0.05)',halo:'rgba(255,255,255,0.88)',outline:'rgba(255,255,255,0.94)',ink:'rgba(11,35,64,0.95)',inkSys:'rgba(20,45,75,0.92)',inkCap:'#0B2340',inkPl:'rgba(20,45,75,0.9)',hoverRing:'rgba(11,35,64,0.6)',vtx:'rgba(40,80,130,0.85)',vtxHi:'#0B2340',vtxIn:'#1C3A5E',selLabel:'#9A5800',signal:'#C27400',line:'38,68,104',trade:'rgba(176,124,20,0.42)',disc:'rgba(255,255,255,0.9)',fieldA:1.45};
+const THEME={pref:'dark',mode:'dark'};try{const t=localStorage.getItem('gw-theme');if(t==='light'||t==='dark'||t==='system')THEME.pref=t;}catch(e){}
+let MP=MP_DARK,SIGNAL='#FFB547',LINE='143,193,227',SIG='255,181,71',FCOL=FACTIONS.map(f=>f.color);
 const TSTAT={Secure:'#6FD08C',Held:'#8FC1E3',Contested:'#FFB547',Lost:'#FF6B4A',Empty:'#6C7F92'};
 const TSTAT_ORDER={Lost:0,Contested:1,Held:2,Secure:3,Empty:4};
 const IMPORTANCE=['','Minor','Modest','Significant','Major','Critical'];
@@ -1052,10 +1082,11 @@ function refreshAll(){if(gm)updateSyncUI();renderStats();if(!formFocused())rende
 
 /* ============ storage: shared db, else this browser ============ */
 const store={mode:'local',ref:null,canWrite:true};
-let saveTimer=null,writing=false,again=false,pendingRemote=null;
+let saveTimer=null,writing=false,again=false,pendingRemote=null,restoring=false;
 function setSave(msg){const el=$('#savestate');if(el)el.textContent=msg;}
-function scheduleSave(){if(!store.canWrite)return;setSave('Unsaved changes');clearTimeout(saveTimer);saveTimer=setTimeout(flush,700);}
+function scheduleSave(){if(!store.canWrite||restoring)return;setSave('Unsaved changes');clearTimeout(saveTimer);saveTimer=setTimeout(flush,700);}
 async function flush(){
+  if(restoring)return;
   saveTimer=null;if(writing){again=true;return;}writing=true;
   const body=serialize(),ref=store.ref,before=savedBody||defaultBody(),reason=nextTerrReason;nextTerrReason='';
   try{
@@ -1209,7 +1240,7 @@ function connectCampaign(cid){
     sub(store.metaRef.onSnapshot(s=>{const d=data(s);if(metaTimer||metaSaving)return;if(isOwn(d))return;draftMeta=cleanMeta(d);updateSyncUI();},()=>{}));
     sub(store.snaps.orderBy('at','desc').limit(20).onSnapshot(q=>{snapList=q.docs.map(d=>({id:d.id,...d.data()}));renderWR();},()=>{}));
   }
-  watchNews(db,pth,gmOK,sub);watchMissions(db,pth,gmOK,sub);watchOps(db,pth,gmOK,sub);watchWar(db,pth,gmOK,sub);watchBattles(db,pth,gmOK,sub);
+  watchNews(db,pth,gmOK,sub);watchMissions(db,pth,gmOK,sub);watchOps(db,pth,gmOK,sub);watchWar(db,pth,gmOK,sub);watchBattles(db,pth,gmOK,sub);watchSaves(gmOK,sub);watchDiscord(gmOK,sub);
   sub(store.events.orderBy('at','desc').limit(8).onSnapshot(q=>{recentPub=q.docs.map(d=>({id:d.id,...d.data()}));cacheEvents(recentPub);renderNews();if(!sel&&!bulkOpen)renderDossier();renderWR();},()=>{}));
   if(store.gmRef){
     sub(store.gmRef.onSnapshot(s=>{if(!s.exists)return;const d=s.data();if(isOwn(d))return;GMN=cleanNotes(d.notes&&typeof d.notes==='object'?d.notes:{});if(!formFocused())renderDossier();},()=>{}));
@@ -1223,7 +1254,7 @@ function cleanMeta(d){const out={quiet:{},why:{}};if(!d)return out;
   if(d.why&&typeof d.why==='object')for(const k of Object.keys(d.why))if(+k>=0&&+k<planets.length&&typeof d.why[k]==='string')out.why[k]=d.why[k].slice(0,200);
   return out;}
 let metaTimer=null,metaSaving=false,metaRev=null;
-function saveDraftMeta(){clearTimeout(metaTimer);metaTimer=setTimeout(async()=>{metaTimer=null;if(!store.metaRef)return;metaSaving=true;metaRev=newRev();try{await store.metaRef.set({...draftMeta,rev:metaRev});}catch(e){}metaSaving=false;},600);}
+function saveDraftMeta(){if(restoring)return;clearTimeout(metaTimer);metaTimer=setTimeout(async()=>{metaTimer=null;if(!store.metaRef)return;metaSaving=true;metaRev=newRev();try{await store.metaRef.set({...draftMeta,rev:metaRev});}catch(e){}metaSaving=false;},600);}
 function loadLocal(){}
 async function initStore(){
   try{const c=localStorage.getItem('gw-campaign');if(c)CAMP.cur=c;}catch(e){}
@@ -1347,12 +1378,14 @@ function resize(){
 function buildGlow(){
   const N=1024,c=document.createElement('canvas');c.width=c.height=N;const g=c.getContext('2d');const k=N/(2*GR);
   const rg=g.createRadialGradient(N/2,N/2,0,N/2,N/2,N/2);
-  rg.addColorStop(0,'rgba(255,236,205,0.6)');rg.addColorStop(0.07,'rgba(215,200,255,0.24)');rg.addColorStop(0.32,'rgba(80,130,200,0.10)');rg.addColorStop(1,'rgba(0,0,0,0)');
+  const lt=THEME.mode==='light';
+  if(lt){rg.addColorStop(0,'rgba(255,214,150,0.5)');rg.addColorStop(0.07,'rgba(150,130,210,0.16)');rg.addColorStop(0.32,'rgba(60,100,160,0.07)');rg.addColorStop(1,'rgba(0,0,0,0)');}
+  else{rg.addColorStop(0,'rgba(255,236,205,0.6)');rg.addColorStop(0.07,'rgba(215,200,255,0.24)');rg.addColorStop(0.32,'rgba(80,130,200,0.10)');rg.addColorStop(1,'rgba(0,0,0,0)');}
   g.fillStyle=rg;g.fillRect(0,0,N,N);
   let a=12345;const r2=()=>{a|=0;a=(a+0x6D2B79F5)|0;let t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};
   const gs=()=>{const u=r2()||1e-9,v=r2();return Math.sqrt(-2*Math.log(u))*Math.cos(TAU*v);};
   for(let n=0;n<16000;n++){const arm=Math.floor(r2()*4);const t=Math.pow(r2(),0.9);const r=500+t*GR*0.98;const ang=arm*TAU/4+r*0.00034+gs()*(0.15+0.22*(1-t));
-    const x=N/2+r*Math.cos(ang)*k,y=N/2+r*Math.sin(ang)*k;const al=0.05+r2()*0.13;g.fillStyle=r2()<0.15?`rgba(255,205,228,${al})`:`rgba(165,200,255,${al})`;g.fillRect(x,y,r2()<0.1?2:1,1);}
+    const x=N/2+r*Math.cos(ang)*k,y=N/2+r*Math.sin(ang)*k;const al=0.05+r2()*0.13;g.fillStyle=lt?(r2()<0.15?`rgba(150,70,110,${al*0.8})`:`rgba(40,70,120,${al*0.8})`):(r2()<0.15?`rgba(255,205,228,${al})`:`rgba(165,200,255,${al})`);g.fillRect(x,y,r2()<0.1?2:1,1);}
   return c;
 }
 function blurRGBA(img,N,passes){
@@ -1384,7 +1417,7 @@ async function buildField(job){
       const n1=i>0?fac[idx-1]:-1,n2=i<N-1?fac[idx+1]:-1,n3=j>0?fac[idx-N]:-1,n4=j<N-1?fac[idx+N]:-1;
       if(n1!==f){if(n1<0)edge=true;else fr=true;}if(n2!==f){if(n2<0)edge=true;else fr=true;}if(n3!==f){if(n3<0)edge=true;else fr=true;}if(n4!==f){if(n4<0)edge=true;else fr=true;}
       const fade=1-Math.max(0,(dd[idx]-0.65)/0.35)*0.45;
-      fill.data[o]=c[0];fill.data[o+1]=c[1];fill.data[o+2]=c[2];fill.data[o+3]=Math.round((edge?170:(f===6?30:52))*fade);
+      fill.data[o]=c[0];fill.data[o+1]=c[1];fill.data[o+2]=c[2];fill.data[o+3]=Math.min(255,Math.round((edge?170:(f===6?30:52))*fade*MP.fieldA));
       if(fr){front.data[o]=sig[0];front.data[o+1]=sig[1];front.data[o+2]=sig[2];front.data[o+3]=255;}}}
   await yieldNow();if(job!==fieldJob)return null;
   blurRGBA(fill,N,1);await yieldNow();if(job!==fieldJob)return null;blurRGBA(front,N,1);
@@ -1393,7 +1426,7 @@ async function buildField(job){
   return{fill:fc,front:frc};
 }
 let fieldTimer=null,fieldJob=0,fieldSig='';
-function fieldSignature(){let h=T.rules.reach+'|'+posRev+'|'+FACTIONS.map(f=>f.color).join('')+'|';for(const s of systems)h+=s.hv?'x':s.faction.toString(36);return h;}
+function fieldSignature(){let h=THEME.mode+'|'+T.rules.reach+'|'+posRev+'|'+FACTIONS.map(f=>f.color).join('')+'|';for(const s of systems)h+=s.hv?'x':s.faction.toString(36);return h;}
 function scheduleField(){clearTimeout(fieldTimer);fieldTimer=setTimeout(async()=>{if(!T)return;const sig=fieldSignature();if(sig===fieldSig&&field)return;const job=++fieldJob;const f=await buildField(job);if(!f||job!==fieldJob)return;field=f;fieldSig=sig;dirty=true;const l=$('#loading');if(l)l.remove();},300);}
 
 /* ============ render ============ */
@@ -1402,8 +1435,8 @@ function selTerr(){if(!sel||sel.kind==='lane'||sel.kind==='battle'||sel.kind==='
 function terrPath(t){ctx.beginPath();t.v.forEach((id,i)=>{const p=T.verts[id];if(i)ctx.lineTo(p[0],p[1]);else ctx.moveTo(p[0],p[1]);});ctx.closePath();}
 function render(now){
   const s=cam.s;
-  ctx.setTransform(DPR,0,0,DPR,0,0);ctx.fillStyle='#06152A';ctx.fillRect(0,0,W,H);
-  const ox=-cam.x*cam.s*0.02,oy=-cam.y*cam.s*0.02;ctx.fillStyle='#C8DCF0';
+  ctx.setTransform(DPR,0,0,DPR,0,0);ctx.fillStyle=MP.bg;ctx.fillRect(0,0,W,H);
+  const ox=-cam.x*cam.s*0.02,oy=-cam.y*cam.s*0.02;ctx.fillStyle=MP.stars;
   for(const st of bgStars){let x=(st.x+ox)%W;if(x<0)x+=W;let y=(st.y+oy)%H;if(y<0)y+=H;ctx.globalAlpha=st.a;ctx.fillRect(x,y,st.r,st.r);}
   ctx.globalAlpha=1;
   const v=view(150),px1=1/s,ss=selTerr(),z=s/fitS,zl=Math.log2(Math.max(z,1));
@@ -1416,26 +1449,26 @@ function render(now){
 
   /* territories */
   drawBodies(px1,v,s,z);
-  if(layers.tint)for(const t of T.terr){if(!visibleTo(t))continue;terrPath(t);ctx.fillStyle=hexA(t.color||FACTIONS[t.owner].color,0.1);ctx.fill();}
-  if(!gm)for(const t of T.terr){if(t.visibility!=='hidden')continue;terrPath(t);ctx.fillStyle='rgba(6,21,42,0.62)';ctx.fill();}
-  if(tlMatch)T.terr.forEach((t,k)=>{if(tlMatch.has(k))return;terrPath(t);ctx.fillStyle='rgba(6,21,42,0.5)';ctx.fill();});
-  if(hov&&hov.kind==='territory'){const k=tIndex.get(hov.id);if(k!==undefined&&k!==ss){terrPath(T.terr[k]);ctx.fillStyle='rgba(143,193,227,0.06)';ctx.fill();}}
+  if(layers.tint)for(const t of T.terr){if(!visibleTo(t))continue;terrPath(t);ctx.fillStyle=hexA(t.color||fc(t.owner),0.1);ctx.fill();}
+  if(!gm)for(const t of T.terr){if(t.visibility!=='hidden')continue;terrPath(t);ctx.fillStyle=MP.fog;ctx.fill();}
+  if(tlMatch)T.terr.forEach((t,k)=>{if(tlMatch.has(k))return;terrPath(t);ctx.fillStyle=MP.dim;ctx.fill();});
+  if(hov&&hov.kind==='territory'){const k=tIndex.get(hov.id);if(k!==undefined&&k!==ss){terrPath(T.terr[k]);ctx.fillStyle=MP.hover;ctx.fill();}}
   if(layers.sectors||gm){
     ctx.strokeStyle=`rgba(${LINE},${gm?0.55:0.32})`;ctx.lineWidth=px1;ctx.beginPath();
     for(const[a,b]of edges){const A=T.verts[a],B=T.verts[b];ctx.moveTo(A[0],A[1]);ctx.lineTo(B[0],B[1]);}
     ctx.stroke();
   }
-  if(tlMatch){ctx.strokeStyle='rgba(255,181,71,0.55)';ctx.lineWidth=1.2*px1;for(const k of tlMatch){terrPath(T.terr[k]);ctx.stroke();}}
-  if(ss>=0){terrPath(T.terr[ss]);ctx.fillStyle='rgba(255,181,71,0.05)';ctx.fill();ctx.strokeStyle='rgba(255,181,71,0.8)';ctx.lineWidth=1.6*px1;ctx.stroke();}
+  if(tlMatch){ctx.strokeStyle=`rgba(${SIG},0.55)`;ctx.lineWidth=1.2*px1;for(const k of tlMatch){terrPath(T.terr[k]);ctx.stroke();}}
+  if(ss>=0){terrPath(T.terr[ss]);ctx.fillStyle=`rgba(${SIG},0.05)`;ctx.fill();ctx.strokeStyle=`rgba(${SIG},0.8)`;ctx.lineWidth=1.6*px1;ctx.stroke();}
 
   /* lanes */
-  if(layers.trade&&T.gx&&T.gx.lt){const tl=Object.keys(T.gx.lt);if(tl.length){ctx.strokeStyle='rgba(233,196,106,0.38)';ctx.lineWidth=px1*(z<1.6?4:6);ctx.lineCap='round';ctx.beginPath();for(const k of tl){const l=laneByKey(k);if(!l)continue;const A=systems[l.a],B=systems[l.b];if(A.hv||B.hv)continue;ctx.moveTo(A.x,A.y);ctx.lineTo(B.x,B.y);}ctx.stroke();ctx.lineCap='butt';}}
+  if(layers.trade&&T.gx&&T.gx.lt){const tl=Object.keys(T.gx.lt);if(tl.length){ctx.strokeStyle=MP.trade;ctx.lineWidth=px1*(z<1.6?4:6);ctx.lineCap='round';ctx.beginPath();for(const k of tl){const l=laneByKey(k);if(!l)continue;const A=systems[l.a],B=systems[l.b];if(A.hv||B.hv)continue;ctx.moveTo(A.x,A.y);ctx.lineTo(B.x,B.y);}ctx.stroke();ctx.lineCap='butt';}}
   if(layers.lanes){
     const la=clamp(0.72+0.14*zl,0.72,1),lv=view(1300);ctx.lineWidth=px1*(z<1.6?0.9:s>0.3?1.4:1.15);
     ctx.strokeStyle=`rgba(${LINE},${0.46*la})`;ctx.beginPath();
     drawStats.lanes=0;for(const l of lanes){if(l.st!=='open'||(l.front&&layers.front))continue;const A=systems[l.a],B=systems[l.b];if(A.hv||B.hv)continue;if(!inV(A.x,A.y,lv)&&!inV(B.x,B.y,lv))continue;ctx.moveTo(A.x,A.y);ctx.lineTo(B.x,B.y);drawStats.lanes++;}
     ctx.stroke();
-    if(layers.front){ctx.strokeStyle=`rgba(255,181,71,${0.62*la})`;ctx.setLineDash([(z<1.6?4:7)*px1,(z<1.6?3:5)*px1]);ctx.beginPath();
+    if(layers.front){ctx.strokeStyle=`rgba(${SIG},${0.62*la})`;ctx.setLineDash([(z<1.6?4:7)*px1,(z<1.6?3:5)*px1]);ctx.beginPath();
       for(const l of lanes){if(!l.front||l.st!=='open')continue;const A=systems[l.a],B=systems[l.b];if(A.hv||B.hv)continue;if(!inV(A.x,A.y,lv)&&!inV(B.x,B.y,lv))continue;ctx.moveTo(A.x,A.y);ctx.lineTo(B.x,B.y);}
       ctx.stroke();ctx.setLineDash([]);}
     const big=z>=1.6;
@@ -1445,9 +1478,9 @@ function render(now){
       if(any)ctx.stroke();}
     ctx.setLineDash([]);
   }
-  if(sel&&sel.kind==='lane'){const l=laneByKey(sel.i);if(l){const A=systems[l.a],B=systems[l.b];ctx.strokeStyle='rgba(255,181,71,0.9)';ctx.lineWidth=3.2*px1;ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(B.x,B.y);ctx.stroke();}}
+  if(sel&&sel.kind==='lane'){const l=laneByKey(sel.i);if(l){const A=systems[l.a],B=systems[l.b];ctx.strokeStyle=`rgba(${SIG},0.9)`;ctx.lineWidth=3.2*px1;ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(B.x,B.y);ctx.stroke();}}
   if(gm&&tool==='lanes'&&laneStart>=0){const A=systems[laneStart];ctx.strokeStyle='#5EEAD4';ctx.lineWidth=2*px1;ctx.beginPath();ctx.arc(A.x,A.y,12/s,0,TAU);ctx.stroke();}
-  if(paint&&paint.sys.size){ctx.strokeStyle='rgba(255,181,71,0.95)';ctx.lineWidth=2*px1;ctx.beginPath();for(const si of paint.sys){const sy=systems[si];ctx.moveTo(sy.x+9/s,sy.y);ctx.arc(sy.x,sy.y,9/s,0,TAU);}ctx.stroke();}
+  if(paint&&paint.sys.size){ctx.strokeStyle=`rgba(${SIG},0.95)`;ctx.lineWidth=2*px1;ctx.beginPath();for(const si of paint.sys){const sy=systems[si];ctx.moveTo(sy.x+9/s,sy.y);ctx.arc(sy.x,sy.y,9/s,0,TAU);}ctx.stroke();}
   const planetZoom=s>0.45,rpx=clamp(2.1+zl*0.8,2.1,4.6),rw=rpx/s;
   if(planetZoom){
     const pa=clamp((s-0.45)/0.15,0,1),pr=clamp(2.4+(s-0.45)*3.2,2.4,7)/s;
@@ -1458,28 +1491,28 @@ function render(now){
       for(const pi of sy.planets){const p=planets[pi];if(p.hv)continue;const dim=planetMatch&&!planetMatch[pi];
         ctx.globalAlpha=pa*(dim?0.2:(p.status==='Destroyed'?0.45:1));
         ctx.beginPath();ctx.arc(p.x,p.y,pr,0,TAU);ctx.fillStyle=p.envColor;ctx.fill();
-        ctx.lineWidth=1.6*px1;ctx.strokeStyle=FACTIONS[p.faction].color;ctx.stroke();
-        if(G.HOT.has(p.status)&&layers.contested){ctx.beginPath();ctx.arc(p.x,p.y,pr+3*px1,0,TAU);ctx.strokeStyle='rgba(255,181,71,0.85)';ctx.lineWidth=px1;ctx.stroke();}}}
+        ctx.lineWidth=1.6*px1;ctx.strokeStyle=fc(p.faction);ctx.stroke();
+        if(G.HOT.has(p.status)&&layers.contested){ctx.beginPath();ctx.arc(p.x,p.y,pr+3*px1,0,TAU);ctx.strokeStyle=`rgba(${SIG},0.85)`;ctx.lineWidth=px1;ctx.stroke();}}}
     ctx.globalAlpha=1;
     for(const sy of systems){if(sy.hv||!inV(sy.x,sy.y,v))continue;ctx.globalAlpha=sysMatch&&!sysMatch[sy.i]?0.3:1;
       const g=ctx.createRadialGradient(sy.x,sy.y,0,sy.x,sy.y,12/s);g.addColorStop(0,sy.starColor);g.addColorStop(0.35,sy.starColor);g.addColorStop(1,'rgba(0,0,0,0)');
       ctx.fillStyle=g;ctx.beginPath();ctx.arc(sy.x,sy.y,12/s,0,TAU);ctx.fill();}
     ctx.globalAlpha=1;
   }else{
-    const drawSet=dim=>{for(let f=0;f<FACTIONS.length;f++){ctx.fillStyle=FACTIONS[f].color;ctx.beginPath();
+    const drawSet=dim=>{for(let f=0;f<FACTIONS.length;f++){ctx.fillStyle=fc(f);ctx.beginPath();
       for(const sy of systems){if(sy.faction!==f||sy.hv)continue;const m=sysMatch?!!sysMatch[sy.i]:true;if(m===dim)continue;if(!inV(sy.x,sy.y,v))continue;const r=sy.capital?rw*1.5:rw;ctx.moveTo(sy.x+r,sy.y);ctx.arc(sy.x,sy.y,r,0,TAU);drawStats.sys++;}
       ctx.fill();}};
-    ctx.fillStyle='rgba(4,14,28,0.8)';ctx.beginPath();
+    ctx.fillStyle=MP.halo;ctx.beginPath();
     for(const sy of systems){if(sy.hv||!inV(sy.x,sy.y,v))continue;const r=(sy.capital?rw*1.5:rw)+1.1*px1;ctx.moveTo(sy.x+r,sy.y);ctx.arc(sy.x,sy.y,r,0,TAU);}
     ctx.fill();drawStats.sys=0;
     if(sysMatch){ctx.globalAlpha=0.3;drawSet(true);ctx.globalAlpha=1;drawSet(false);}else drawSet(false);
   }
-  {ctx.lineWidth=(z<1.6?1:1.3)*px1;for(const sy of systems){if(!sy.capital||sy.hv||!inV(sy.x,sy.y,v))continue;const d=(planetZoom?16:rpx*(z<1.6?2.6:3.2))/s;ctx.strokeStyle=FACTIONS[sy.faction].color;ctx.beginPath();ctx.moveTo(sy.x,sy.y-d);ctx.lineTo(sy.x+d,sy.y);ctx.lineTo(sy.x,sy.y+d);ctx.lineTo(sy.x-d,sy.y);ctx.closePath();ctx.stroke();}}
+  {ctx.lineWidth=(z<1.6?1:1.3)*px1;for(const sy of systems){if(!sy.capital||sy.hv||!inV(sy.x,sy.y,v))continue;const d=(planetZoom?16:rpx*(z<1.6?2.6:3.2))/s;ctx.strokeStyle=fc(sy.faction);ctx.beginPath();ctx.moveTo(sy.x,sy.y-d);ctx.lineTo(sy.x+d,sy.y);ctx.lineTo(sy.x,sy.y+d);ctx.lineTo(sy.x-d,sy.y);ctx.closePath();ctx.stroke();}}
   if(layers.contested&&!planetZoom){
     const pulse=0.5;
     const small=z<1.6;ctx.lineWidth=(small?0.9:1.2)*px1;
     for(const pass of sysMatch?[0,1]:[1]){
-      ctx.strokeStyle=pass?`rgba(255,181,71,${small?0.3+0.3*pulse:0.45+0.45*pulse})`:'rgba(255,181,71,0.2)';ctx.beginPath();
+      ctx.strokeStyle=pass?`rgba(${SIG},${small?0.3+0.3*pulse:0.45+0.45*pulse})`:`rgba(${SIG},0.2)`;ctx.beginPath();
       for(const sy of systems){if(!sy.contested||sy.hv||!inV(sy.x,sy.y,v))continue;if(sysMatch&&(!!sysMatch[sy.i])!==!!pass)continue;const r=(rpx+(small?1.4:2.2)+pulse*(small?1.2:2.6))/s;ctx.moveTo(sy.x+r,sy.y);ctx.arc(sy.x,sy.y,r,0,TAU);}
       ctx.stroke();}
   }
@@ -1492,7 +1525,7 @@ function render(now){
   }
   drawBattles(px1,v,s);
   if(layers.missions&&mByPlanet.size){
-    ctx.fillStyle='#FFB547';ctx.strokeStyle='rgba(4,14,28,0.9)';ctx.lineWidth=1*px1;
+    ctx.fillStyle=SIGNAL;ctx.strokeStyle=MP.outline;ctx.lineWidth=1*px1;
     const done=new Set();for(const[pi,arr]of mByPlanet){const live=arr.some(m=>m.status==='available');if(!live&&!gm)continue;const p=planets[pi],sy=systems[p.system];if(sy.hv||p.hv)continue;
       const o=planetZoom?p:sy;if(!planetZoom&&done.has(sy.i))continue;done.add(sy.i);if(!inV(o.x,o.y,v))continue;
       const d=(planetZoom?5:Math.max(3.2,rpx+1.2))/s,ox=o.x+(planetZoom?7:rpx+4)/s,oy=o.y-(planetZoom?7:rpx+4)/s;
@@ -1508,7 +1541,7 @@ function render(now){
   ctx.restore();
 
   /* labels */
-  ctx.shadowBlur=0;ctx.lineJoin='round';ctx.strokeStyle='rgba(4,14,28,0.9)';ctx.lineWidth=3;const txt=(t,x,y)=>{ctx.strokeText(t,x,y);ctx.fillText(t,x,y);};
+  ctx.shadowBlur=0;ctx.lineJoin='round';ctx.strokeStyle=MP.outline;ctx.lineWidth=3;const txt=(t,x,y)=>{ctx.strokeText(t,x,y);ctx.fillText(t,x,y);};
   if(layers.labels){
     const la=clamp((0.13-s)/0.04,0,1);
     if(la>0){
@@ -1520,12 +1553,12 @@ function render(now){
         const fs=clamp(est*0.17,10.5,15);ctx.font=`600 ${fs}px "Saira Condensed","Arial Narrow",sans-serif`;
         ctx.globalAlpha=la*(hidden?0.5:(!gm&&t.visibility==='rumoured')?0.8:1);
         let label=tName(t);if(gm&&t.visibility!=='visible')label+=t.visibility==='hidden'?' (hidden)':' (rumoured)';else if(!gm&&t.visibility==='rumoured')label+='?';
-        ctx.fillStyle=k===ss?'#FFC56E':'rgba(232,241,247,0.95)';txt(label,x,y);
+        ctx.fillStyle=k===ss?MP.selLabel:MP.ink;txt(label,x,y);
         if(!stats||fs<12)return;
         const bw=58;let bx=x-bw/2;
-        t.share.forEach((val,f)=>{if(val<=0)return;ctx.fillStyle=FACTIONS[f].color;ctx.fillRect(bx,y+5,bw*val,3);bx+=bw*val;});
+        t.share.forEach((val,f)=>{if(val<=0)return;ctx.fillStyle=fc(f);ctx.fillRect(bx,y+5,bw*val,3);bx+=bw*val;});
         
-        if(layers.status){ctx.font='500 11px "Saira",system-ui,sans-serif';ctx.fillStyle=TSTAT[t.status];txt(t.status,x,y+21);}
+        if(layers.status){ctx.font='500 11px "Saira",system-ui,sans-serif';ctx.fillStyle=themeShade(TSTAT[t.status]);txt(t.status,x,y+21);}
       });
       ctx.globalAlpha=1;
     }
@@ -1533,7 +1566,7 @@ function render(now){
       const all=s>0.36,a=clamp((s-0.12)/0.04,0,1);
       ctx.font='500 12.5px "Saira Condensed","Arial Narrow",sans-serif';ctx.textBaseline='middle';ctx.textAlign=planetZoom?'center':'left';let count=0;
       for(const sy of systems){if(sy.hv||(!all&&!sy.major))continue;const[x,y]=w2s(sy.x,sy.y);if(x<-80||x>W+80||y<-60||y>H+60)continue;
-        ctx.globalAlpha=(sysMatch&&!sysMatch[sy.i]?0.3:1)*a;ctx.fillStyle=sy.capital?'#FFFFFF':'rgba(214,230,242,0.9)';
+        ctx.globalAlpha=(sysMatch&&!sysMatch[sy.i]?0.3:1)*a;ctx.fillStyle=sy.capital?MP.inkCap:MP.inkSys;
         if(planetZoom){ctx.font='600 14px "Saira Condensed","Arial Narrow",sans-serif';txt(sy.name,x,y-((20+(sy.np-1)*11)*s+14));}
         else txt(sy.name,x+rpx+5,y);
         if(++count>700)break;}
@@ -1541,7 +1574,7 @@ function render(now){
     }
     labelBodies(s,txt);
     if(s>0.95){
-      ctx.font='500 12px "Saira",system-ui,sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillStyle='rgba(232,241,247,0.88)';
+      ctx.font='500 12px "Saira",system-ui,sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillStyle=MP.inkPl;
       for(const sy of systems){if(sy.hv||!inV(sy.x,sy.y,v))continue;for(const pi of sy.planets){const p=planets[pi];if(p.hv)continue;const[x,y]=w2s(p.x,p.y);if(x<-80||x>W||y<-20||y>H+20)continue;ctx.globalAlpha=planetMatch&&!planetMatch[pi]?0.3:1;txt(p.name,x+9,y);}}
       ctx.globalAlpha=1;
     }
@@ -1553,23 +1586,23 @@ function render(now){
     const st=ss>=0?new Set(T.terr[ss].v):null;
     for(const id of usedV){const[x,y]=w2s(T.verts[id][0],T.verts[id][1]);if(x<-10||x>W+10||y<-10||y>H+10)continue;
       const inSel=st&&st.has(id);const r=id===selV||id===hovV?4.5:inSel?3.5:2.4;
-      ctx.fillStyle=id===selV?SIGNAL:id===hovV?'#FFFFFF':inSel?'#E8F1F7':'rgba(143,193,227,0.85)';ctx.fillRect(x-r,y-r,2*r,2*r);
+      ctx.fillStyle=id===selV?SIGNAL:id===hovV?MP.vtxHi:inSel?MP.vtxIn:MP.vtx;ctx.fillRect(x-r,y-r,2*r,2*r);
       if(id===selV){ctx.strokeStyle='#1A1204';ctx.lineWidth=1;ctx.strokeRect(x-r,y-r,2*r,2*r);}}
   }
   if(gm&&tool==='draw'&&drawPts.length){
     ctx.strokeStyle=SIGNAL;ctx.lineWidth=1.8;ctx.beginPath();
     drawPts.forEach((p,i)=>{const[x,y]=w2s(p.x,p.y);if(i)ctx.lineTo(x,y);else ctx.moveTo(x,y);});
     if(mouseW){const[x,y]=w2s(mouseW[0],mouseW[1]);ctx.lineTo(x,y);}ctx.stroke();
-    if(drawPts.length>=2&&mouseW){ctx.setLineDash([5,5]);ctx.beginPath();const[x,y]=w2s(mouseW[0],mouseW[1]);const[fx,fy]=w2s(drawPts[0].x,drawPts[0].y);ctx.moveTo(x,y);ctx.lineTo(fx,fy);ctx.strokeStyle='rgba(255,181,71,0.5)';ctx.stroke();ctx.setLineDash([]);}
-    drawPts.forEach((p,i)=>{const[x,y]=w2s(p.x,p.y);ctx.fillStyle=i===0?'#FFFFFF':SIGNAL;const r=i===0?5:3.5;ctx.fillRect(x-r,y-r,2*r,2*r);});
+    if(drawPts.length>=2&&mouseW){ctx.setLineDash([5,5]);ctx.beginPath();const[x,y]=w2s(mouseW[0],mouseW[1]);const[fx,fy]=w2s(drawPts[0].x,drawPts[0].y);ctx.moveTo(x,y);ctx.lineTo(fx,fy);ctx.strokeStyle=`rgba(${SIG},0.5)`;ctx.stroke();ctx.setLineDash([]);}
+    drawPts.forEach((p,i)=>{const[x,y]=w2s(p.x,p.y);ctx.fillStyle=i===0?MP.vtxHi:SIGNAL;const r=i===0?5:3.5;ctx.fillRect(x-r,y-r,2*r,2*r);});
   }
-  if(box&&moved){const x=Math.min(box.x0,box.x1),y=Math.min(box.y0,box.y1),w=Math.abs(box.x1-box.x0),h=Math.abs(box.y1-box.y0);ctx.fillStyle=box.remove?'rgba(255,107,74,0.08)':'rgba(255,181,71,0.08)';ctx.fillRect(x,y,w,h);ctx.strokeStyle=box.remove?'#FF6B4A':SIGNAL;ctx.setLineDash([5,4]);ctx.lineWidth=1.2;ctx.strokeRect(x,y,w,h);ctx.setLineDash([]);}
+  if(box&&moved){const x=Math.min(box.x0,box.x1),y=Math.min(box.y0,box.y1),w=Math.abs(box.x1-box.x0),h=Math.abs(box.y1-box.y0);ctx.fillStyle=box.remove?'rgba(255,107,74,0.08)':`rgba(${SIG},0.08)`;ctx.fillRect(x,y,w,h);ctx.strokeStyle=box.remove?'#FF6B4A':SIGNAL;ctx.setLineDash([5,4]);ctx.lineWidth=1.2;ctx.strokeRect(x,y,w,h);ctx.setLineDash([]);}
   const ret=(x,y,r,col,w)=>{ctx.strokeStyle=col;ctx.lineWidth=w;const k=r*0.45;ctx.beginPath();
     ctx.moveTo(x-r,y-r+k);ctx.lineTo(x-r,y-r);ctx.lineTo(x-r+k,y-r);ctx.moveTo(x+r-k,y-r);ctx.lineTo(x+r,y-r);ctx.lineTo(x+r,y-r+k);
     ctx.moveTo(x+r,y+r-k);ctx.lineTo(x+r,y+r);ctx.lineTo(x+r-k,y+r);ctx.moveTo(x-r+k,y+r);ctx.lineTo(x-r,y+r);ctx.lineTo(x-r,y+r-k);ctx.stroke();};
   const pt=o=>o.kind==='system'?systems[o.i]:o.kind==='planet'?planets[o.i]:null;
   if(sel&&sel.kind==='lane'){}
-  if(hov&&hov.kind!=='territory'&&!(sel&&sel.kind===hov.kind&&sel.i===hov.i)){const o=pt(hov);const[x,y]=w2s(o.x,o.y);ctx.strokeStyle='rgba(255,255,255,0.7)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(x,y,hov.kind==='planet'?9:Math.max(7,rpx+5),0,TAU);ctx.stroke();}
+  if(hov&&hov.kind!=='territory'&&!(sel&&sel.kind===hov.kind&&sel.i===hov.i)){const o=pt(hov);const[x,y]=w2s(o.x,o.y);ctx.strokeStyle=MP.hoverRing;ctx.lineWidth=1;ctx.beginPath();ctx.arc(x,y,hov.kind==='planet'?9:Math.max(7,rpx+5),0,TAU);ctx.stroke();}
   if(sel&&sel.kind==='mission'){const m=missionList().find(x=>x.id===sel.i);if(m){const p=planets[m.planet];const[x,y]=w2s(p.x,p.y);ret(x,y,12,SIGNAL,1.6);}}
   if(sel&&sel.kind!=='territory'&&sel.kind!=='lane'&&sel.kind!=='mission'&&sel.kind!=='operation'&&sel.kind!=='battle'&&sel.kind!=='body'){const o=pt(sel);const[x,y]=w2s(o.x,o.y);ret(x,y,sel.kind==='planet'?11:(planetZoom?16:Math.max(9,rpx+7)),SIGNAL,1.6);}
 }
@@ -1579,7 +1612,7 @@ function renderFallback(err){
   try{ctx.restore();}catch(e){}
   ctx.setTransform(DPR,0,0,DPR,0,0);ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.setLineDash([]);
   const rpx=clamp(1.4+(cam.s-0.04)*10,1.4,4.4);
-  for(const sy of systems){const[x,y]=w2s(sy.x,sy.y);if(x<-10||x>W+10||y<-10||y>H+10)continue;ctx.fillStyle=FACTIONS[sy.faction]?FACTIONS[sy.faction].color:'#fff';ctx.beginPath();ctx.arc(x,y,rpx,0,TAU);ctx.fill();}
+  for(const sy of systems){const[x,y]=w2s(sy.x,sy.y);if(x<-10||x>W+10||y<-10||y>H+10)continue;ctx.fillStyle=FACTIONS[sy.faction]?fc(sy.faction):'#fff';ctx.beginPath();ctx.arc(x,y,rpx,0,TAU);ctx.fill();}
   if(!drawErrShown){drawErrShown=true;const el=$('#drawerr');el.textContent=`Part of the map could not be drawn, so only the star systems are showing. Reload the page; if it keeps happening, send this message to whoever maintains the map: ${String(err&&err.message||err).slice(0,160)}`;el.classList.add('show');}
 }
 /* ============ loop + camera moves ============ */
@@ -1589,7 +1622,7 @@ function drawPulse(now,pulsing){
   if(!pulsing)return;const s=cam.s,z=s/fitS,zl=Math.log2(Math.max(z,1)),rpx=clamp(2.1+zl*0.8,2.1,4.6),small=z<1.6,v=view(150);
   const pulse=(Math.sin(now/420)+1)/2;
   pctx.setTransform(DPR,0,0,DPR,0,0);pctx.translate(W/2,H/2);pctx.scale(s,s);pctx.translate(-cam.x,-cam.y);
-  pctx.lineWidth=(small?0.9:1.2)/s;pctx.strokeStyle=`rgba(255,181,71,${(small?0.25:0.4)*pulse})`;pctx.beginPath();
+  pctx.lineWidth=(small?0.9:1.2)/s;pctx.strokeStyle=`rgba(${SIG},${(small?0.25:0.4)*pulse})`;pctx.beginPath();
   for(const sy of systems){if(!sy.contested||sy.hv||!inV(sy.x,sy.y,v))continue;if(sysMatch&&!sysMatch[sy.i])continue;const r=(rpx+(small?2.6:4.2)+pulse*(small?1.4:2.6))/s;pctx.moveTo(sy.x+r,sy.y);pctx.arc(sy.x,sy.y,r,0,TAU);}
   pctx.stroke();
   pulseBattles(pctx,s,pulse,v);
@@ -1719,11 +1752,11 @@ $('#gmtoggle').addEventListener('click',()=>{if(store.firebase&&!store.canWrite)
 
 /* ============ dossier ============ */
 function pop(n){if(!n)return'Uninhabited';if(n>=1e9)return(n/1e9).toFixed(1)+' billion';if(n>=1e6)return Math.round(n/1e6)+' million';return fmt(n);}
-const chip=f=>`<span class="chip"><i style="background:${FACTIONS[f].color}"></i>${esc(FACTIONS[f].short)}</span>`;
+const chip=f=>`<span class="chip"><i style="background:${fc(f)}"></i>${esc(FACTIONS[f].short)}</span>`;
 const statusTag=st=>`<span class="status"><i style="background:${STATUS_COLORS[st]}"></i>${st}</span>`;
 const tBadge=st=>`<span class="badge"><i style="background:${TSTAT[st]}"></i>${st==='Empty'?'Empty space':st}</span>`;
 const lnk=(kind,i,label)=>`<button class="lnk" data-kind="${kind}" data-i="${esc(i)}">${esc(label)}</button>`;
-function cbar(share){return`<div class="cbar">${share.map((v,f)=>v>0?`<span style="width:${(v*100).toFixed(2)}%;background:${FACTIONS[f].color}" title="${esc(FACTIONS[f].short)} ${Math.round(v*100)}%"></span>`:'').join('')}</div>`;}
+function cbar(share){return`<div class="cbar">${share.map((v,f)=>v>0?`<span style="width:${(v*100).toFixed(2)}%;background:${fc(f)}" title="${esc(FACTIONS[f].short)} ${Math.round(v*100)}%"></span>`:'').join('')}</div>`;}
 function frows(counts,total){return counts.map((c,f)=>[c,f]).filter(x=>x[0]>0).sort((a,b)=>b[0]-a[0]).map(([c,f])=>`<div class="frow">${chip(f)}<em>${fmt(c)}</em><b>${Math.round(c/total*100)}%</b></div>`).join('');}
 function frowsShare(t){return t.share.map((v,f)=>[v,f]).filter(x=>x[0]>0||t.byFaction[x[1]]>0).sort((a,b)=>b[0]-a[0]).map(([v,f])=>`<div class="frow">${chip(f)}<em>${fmt(t.byFaction[f])} planet${t.byFaction[f]===1?'':'s'}</em><b>${Math.round(v*100)}%</b></div>`).join('');}
 function threatSegs(t){const col=t>=8?'#FF6B4A':t>=5?'#FFB547':'#8FC1E3';return`<div class="segs">${Array.from({length:10},(_,k)=>`<i style="${k<t?`background:${col}`:''}"></i>`).join('')}</div>`;}
@@ -1763,7 +1796,7 @@ function dTerritoryGM(t){
     <label>Claimed by<select data-f="owner">${realF((f,i)=>opt(i,esc(f.short),t.owner))}</select></label>
     <label>Strategic importance<select data-f="importance">${[1,2,3,4,5].map(n=>opt(n,`${n}, ${IMPORTANCE[n].toLowerCase()}`,t.importance)).join('')}</select></label>
     <label>What players see<select data-f="visibility">${opt('visible','Everything',t.visibility)}${opt('rumoured','Name only, marked unconfirmed',t.visibility)}${opt('hidden','Nothing, shown as uncharted space',t.visibility)}</select></label>
-    <div class="flabel">Colour<span class="colorrow"><input type="color" data-f="color" value="${t.color||FACTIONS[t.owner].color}" aria-label="Territory colour"><button class="btn" data-act="clearcolor" ${t.color?'':'disabled'}>Use claimant colour</button></span></div>
+    <div class="flabel">Colour<span class="colorrow"><input type="color" data-f="color" value="${t.color||fc(t.owner)}" aria-label="Territory colour"><button class="btn" data-act="clearcolor" ${t.color?'':'disabled'}>Use claimant colour</button></span></div>
   </div>
   ${terrDetail(t)}
   <div class="actions"><button class="btn" data-act="fly">Zoom to territory</button><button class="btn" data-act="reshape">Reshape borders</button></div>
@@ -1836,7 +1869,7 @@ function renderTList(){
   $('#tltable').innerHTML=`<thead><tr>${th('name','Territory')}${th('owner','Claimed by')}${th('control','Claimant control')}${th('status','Status')}${th('war','At war')}${th('planets','Planets')}${th('imp','Importance')}</tr></thead><tbody>${rows.map(({t})=>{
     const st=showStats(t);
     return`<tr data-id="${esc(t.id)}" tabindex="0"><td><b>${esc(tName(t))}</b>${gm&&t.visibility!=='visible'?` <span class="vis">${t.visibility}</span>`:''}</td><td>${chip(t.owner)}</td>
-    <td>${st?`<span class="minibar"><i style="width:${Math.round(t.ownerShare*100)}%;background:${FACTIONS[t.owner].color}"></i></span> ${Math.round(t.ownerShare*100)}%`:'Unconfirmed'}</td>
+    <td>${st?`<span class="minibar"><i style="width:${Math.round(t.ownerShare*100)}%;background:${fc(t.owner)}"></i></span> ${Math.round(t.ownerShare*100)}%`:'Unconfirmed'}</td>
     <td>${st?tBadge(t.status):'Unknown'}</td><td>${st?t.contested:'?'}</td><td>${st?t.planetCount:'?'}</td><td>${IMPORTANCE[t.importance]}</td></tr>`;}).join('')||`<tr><td colspan="7" class="empty">No territories match these filters.</td></tr>`}</tbody>`;
 }
 $('#tltable').addEventListener('click',e=>{const h=e.target.closest('th[data-sort]');if(h){const k=h.dataset.sort;if(tl.sort===k)tl.dir*=-1;else{tl.sort=k;tl.dir=1;}renderTList();return;}
@@ -2013,7 +2046,7 @@ function deriveSystems(){
   hotCount=planets.filter(p=>!p.hv&&G.HOT.has(p.status)).length;
   if(facChanged&&field)scheduleField();
 }
-function planetsChanged(){applyOverrides();if(T)computeStats();buildIndex();if(fFaction>=0||fStatus)applyFilter();else renderLegend();refreshAll();renderPlist();}
+function planetsChanged(){if(pendingPlanet!==null)setTimeout(openPendingPlanet,400);applyOverrides();if(T)computeStats();buildIndex();if(fFaction>=0||fStatus)applyFilter();else renderLegend();refreshAll();renderPlist();}
 
 /* ---------- applying changes (the one path every edit goes through) ---------- */
 function applyChanges(map,opts){
@@ -2052,7 +2085,7 @@ function loadShard(k,d){
   for(const key of Object.keys(o)){const i=+key;if(!Number.isInteger(i)||i<k*SHARD||i>=Math.min(planets.length,(k+1)*SHARD))continue;const v=vOverride(o[key]);if(v)OV[i]=v;}
 }
 let planetSaveChain=Promise.resolve();
-function savePlanets(idxs){planetSaveChain=planetSaveChain.then(()=>savePlanetsNow(idxs));return planetSaveChain;}
+function savePlanets(idxs){if(restoring)return planetSaveChain;planetSaveChain=planetSaveChain.then(()=>savePlanetsNow(idxs));return planetSaveChain;}
 async function savePlanetsNow(idxs){
   if(!store.canWrite||!store.shards)return;
   const ks=[...new Set(idxs.map(i=>Math.floor(i/SHARD)))],refs=store.shards;
@@ -2379,7 +2412,7 @@ function renderWR(){
   document.querySelectorAll('[data-wt]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.wt===wr.tab)));
   const a=document.activeElement;if(a&&a.closest&&a.closest('#wrbody')&&(a.tagName==='INPUT'||a.tagName==='TEXTAREA')){if(wr.tab==='audit')renderAuditList();return;}
   const b=$('#wrbody');
-  b.innerHTML=wr.tab==='overview'?wrOverview():wr.tab==='sync'?wrSync():wr.tab==='factions'?wrFactions():wr.tab==='missions'?wrMissions():wr.tab==='war'?wrWar():wr.tab==='battles'?wrBattles():wr.tab==='audit'?wrAudit():wrCampaigns();
+  b.innerHTML=wr.tab==='overview'?wrOverview():wr.tab==='sync'?wrSync():wr.tab==='factions'?wrFactions():wr.tab==='missions'?wrMissions():wr.tab==='war'?wrWar():wr.tab==='battles'?wrBattles():wr.tab==='saves'?wrSaves():wr.tab==='discord'?wrDiscord():wr.tab==='audit'?wrAudit():wrCampaigns();
   if(wr.tab==='audit')renderAuditList();
   resolveNames();
 }
@@ -2496,7 +2529,7 @@ function wrCampaigns(){
   return`<div class="wrgrid"><section class="wrcard span2"><h3>Campaigns</h3>
   <p class="dim">Each campaign is its own copy of the galaxy, with its own territories, planets, war clock and change log. Run a Thursday and a Saturday group side by side without one overwriting the other.</p>
   <div class="tlwrap"><table class="wrtable"><thead><tr><th>Campaign</th><th>War clock</th><th></th></tr></thead><tbody>${rows}</tbody></table></div></section>
-  ${backupHTML()}
+  ${store.canWrite?'<section class="wrcard span2"><h3>Saves and backups</h3><p class="dim">Save, load and back up campaigns from the Saves tab.</p><div class="actions"><button class="btn" data-wt="saves">Open saves</button></div></section>':''}
   ${store.canWrite?`<section class="wrcard span2"><h3>New campaign</h3><div class="form ncform">
     <label>Name<input type="text" id="ncname" maxlength="40" placeholder="For example: Saturday group, the Dawnline War" value="${esc(nc.name)}"></label>
     <label>Start from<select id="ncfrom">${opt('copy',`A copy of ${curCamp().name} as it is now`,nc.from)}${opt('fresh','A fresh galaxy',nc.from)}</select></label>
@@ -2605,7 +2638,7 @@ function terrPop(t){let n=0;for(const si of t.systems)for(const pi of systems[si
 function terrValue(t){const v=t.systems.flatMap(si=>systems[si].planets.filter(pi=>!planets[pi].hv).map(pi=>planets[pi].value)).sort((a,b)=>b-a).slice(0,10);
   if(!v.length)return[0,'None'];const sc=Math.round(clamp(v.reduce((a,b)=>a+b,0)/v.length*0.8+t.importance*6,0,100));return[sc,sc>=80?'Extreme':sc>=62?'High':sc>=45?'Moderate':'Low'];}
 function frontPlanets(t){return t.systems.filter(si=>onFront(systems[si])).flatMap(si=>systems[si].planets).map(pi=>planets[pi]).filter(p=>!p.hv).sort((a,b)=>(G.HOT.has(b.status)-G.HOT.has(a.status))||b.value-a.value);}
-function controlRows(t){return t.share.map((v,f)=>[v,f]).filter(x=>x[0]>0).sort((a,b)=>b[0]-a[0]).map(([v,f])=>`<div class="crow"><span>${chip(f)}</span><div class="vbar"><i style="width:${(v*100).toFixed(1)}%;background:${FACTIONS[f].color}"></i></div><b>${Math.round(v*100)}%</b></div>`).join('');}
+function controlRows(t){return t.share.map((v,f)=>[v,f]).filter(x=>x[0]>0).sort((a,b)=>b[0]-a[0]).map(([v,f])=>`<div class="crow"><span>${chip(f)}</span><div class="vbar"><i style="width:${(v*100).toFixed(1)}%;background:${fc(f)}"></i></div><b>${Math.round(v*100)}%</b></div>`).join('');}
 function dTerritory(t){
   if(!gm&&t.visibility==='hidden')return dNav()+`<div class="d-kind"><span>Territory</span></div><h2>Uncharted space</h2><p class="lead">There is no reliable intelligence on this region.</p>`;
   if(!gm&&t.visibility==='rumoured')return dNav()+`<div class="d-kind"><span>Territory</span><span class="id">${esc(t.id)}</span></div><h2>${esc(t.name)}</h2><p class="lead">Reports of this territory are unconfirmed. Control and status are unknown.</p>${t.desc?`<p class="seed">${esc(t.desc)}</p>`:''}`;
@@ -2646,7 +2679,7 @@ function dSystem(sy){
   <dl class="facts"><div><dt>Control</dt><dd>${chip(sy.faction)}</dd></div><div><dt>Star</dt><dd>${sy.star}</dd></div></dl>
   ${inTheNews('system',sy.i)}
   <h3>Planets</h3><ul class="rows">${vis.map(p=>`<li><button class="row lnk" data-kind="planet" data-i="${p.i}"><i style="background:${p.envColor}"></i><span>${esc(p.name)}</span><span class="rs">${p.env}</span><span class="status"><i style="background:${STATUS_COLORS[p.status]}" title="${p.status}"></i></span></button></li>`).join('')}</ul>
-  <h3>Lanes to</h3><div class="tags">${sy.links.filter(i=>!systems[i].hv).map(i=>{const o=systems[i];return`<span><button class="lnk chip" data-kind="system" data-i="${i}"><i style="background:${FACTIONS[o.faction].color}"></i>${esc(o.name)}</button></span>`;}).join('')}</div>
+  <h3>Lanes to</h3><div class="tags">${sy.links.filter(i=>!systems[i].hv).map(i=>{const o=systems[i];return`<span><button class="lnk chip" data-kind="system" data-i="${i}"><i style="background:${fc(o.faction)}"></i>${esc(o.name)}</button></span>`;}).join('')}</div>
   ${(()=>{const bs=bodies().filter(b=>b.type==='belt'&&b.sys>=0?b.sys===sy.i:inBody(b,sy.x,sy.y));return bs.length?`<h3>Surroundings</h3><div class="tags">${bs.map(b=>`<span><button class="lnk" data-kind="body" data-i="${esc(b.id)}">${esc(b.name)}</button> ${esc(PH[b.type].name.toLowerCase())}</span>`).join('')}</div>`:'';})()}
   ${battlesHTML(battleList().filter(b=>b.kind==='system'&&b.sys===sy.i),'here')}
   ${gm&&store.btGM?`<div class="actions"><button class="btn primary" data-bact="startsys" data-ref="${sy.i}">Start a space battle here</button>${stationsIn(sy.i).length?`<span class="dim">Station: ${esc(effOf(draftOV,stationsIn(sy.i)[0]).n)}</span>`:''}</div>`:''}
@@ -2781,7 +2814,7 @@ function statusesUnder(body,map){
 const PUB_CHUNK=400,SNAP_KEEP=()=>store.local?5:30;
 async function doSync(){
   if(!store.canWrite||!store.ref||syncing)return;
-  syncing=true;renderWR();
+  syncing=true;renderWR();dcHold();
   try{
     if(saveTimer){clearTimeout(saveTimer);await flush();}
     await planetSaveChain;
@@ -2818,6 +2851,8 @@ async function doSync(){
         if(j===0){if(visTerr.length)ev.changes=visTerr;const ts={};for(const id of Object.keys(tstat)){const t=truthT.terr.find(x=>x.id===id);if(t&&t.visibility==='visible')ts[id]=tstat[id];}if(Object.keys(ts).length)ev.tstat=ts;}
         await logEvent(ev,true);}
     }
+    if(pub&&(visible.length||visTerr.length||Object.keys(tstat).length))dNotify('sync',{label,visible,tstat,truthT});
+    if(pub)dcPlanetAlerts(visible);
     await logEvent({kind:'sync',label:note?`Synced: ${note}`:'Synced',summary:`${fmt(pend.planets.length)} planet${pend.planets.length===1?'':'s'} and ${pend.terr?pend.terr.count:0} territor${pend.terr&&pend.terr.count===1?'y':'ies'} went live${pub?'':' with no public history entry'}.`,changes:pend.terr?pend.terr.changes:[],rules:pend.terr?pend.terr.rules:{}},false);
     let storyMsg='';
     if(syncForm.story&&store.newsDraft){const st=syncStory(pend,tstat,truthT,note);if(st)st.syncId=sid;if(st&&await saveDraftStory(st,true))storyMsg=' A news story was drafted for you in the newsroom.';}
@@ -2828,11 +2863,12 @@ async function doSync(){
     const qm=store.mGM?await publishQueuedMissions():0;if(qm)storyMsg+=` ${qm} queued mission${qm===1?'':'s'} published.`;
     draftMeta={quiet:{},why:{}};saveDraftMeta();syncForm.note='';
     pruneSnapshots();
+    maybeDailyAutosave();
     toast(`Synced. Players now see ${fmt(pend.count)} change${pend.count===1?'':'s'}.${storyMsg}`);
     setSave('Synced. The live galaxy matches your draft.');
     computePending();updateSyncUI();
   }catch(e){writeFailed(e);toast('Sync did not finish. Press Sync again to complete it.');}
-  finally{syncing=false;renderWR();}
+  finally{syncing=false;dcRelease();renderWR();}
 }
 async function pruneSnapshots(){
   try{const q=await store.snaps.orderBy('at','desc').get();const old=q.docs.slice(SNAP_KEEP());
@@ -2932,7 +2968,7 @@ function applyGX(){const g=(T&&T.gx)||emptyGX();applyFactions(g.f);applyPosition
 function applyFactions(list){
   for(let i=0;i<MAXF;i++)Object.assign(FACTIONS[i],BASEF[i]);
   for(const e of list){const f=FACTIONS[e.i];if(!f||f.pseudo)continue;if(e.name)f.name=e.name;f.short=e.short||e.name||f.short;if(e.color)f.color=e.color;if(e.desc)f.desc=e.desc;f.unused=false;}
-  FRGB=FACTIONS.map(f=>hexToRgb(f.color));refreshFactionSelects();
+  recolour();refreshFactionSelects();
 }
 function applyPositions(sp){
   let ch=false;
@@ -3106,7 +3142,7 @@ function storyPublic(d,at){const c=curCamp().clock;return{syncId:d.syncId||'',ti
   at,edited:d.at?new Date().toISOString():'',cycle:d.cycle||c.cycle,day:d.day||c.day,status:'published'};}
 function watchNews(db,pth,gmOK,sub){
   store.newsPub=db.collection(pth.newsPub);store.newsDraft=gmOK?db.collection(pth.newsDraft):null;
-  sub(store.newsPub.orderBy('at','desc').limit(200).onSnapshot(q=>{news.pub=q.docs.map(d=>cleanStory({id:d.id,...d.data()})).filter(s=>s&&s.status==='published');
+  sub(store.newsPub.orderBy('at','desc').limit(200).onSnapshot(q=>{news.pub=q.docs.map(d=>cleanStory({id:d.id,...d.data()})).filter(s=>s&&s.status==='published');openPendingStory();
     renderNews();if(sel&&!formFocused())renderDossier();},()=>{}));
   sub(db.collection(pth.events).where('kind','==','sync').orderBy('at','desc').limit(150).onSnapshot(q=>{news.syncEv=q.docs.map(d=>({id:d.id,...d.data()}));renderNews();},()=>{}));
   if(store.newsDraft)sub(store.newsDraft.orderBy('updated','desc').limit(200).onSnapshot(q=>{news.drafts=q.docs.map(d=>cleanStory({id:d.id,...d.data()})).filter(Boolean);renderNews();renderWR();},()=>{}));
@@ -3123,7 +3159,7 @@ function linkLabel(l){
   if(l.k==='faction'){const f=FACTIONS[l.i];return f&&!f.unused&&!f.pseudo?f.short:null;}
   return null;}
 function linkChips(s,editable){return s.links.map((l,j)=>{const lab=linkLabel(l);if(!lab&&!editable)return'';
-  const dot=l.k==='faction'?`<i style="background:${FACTIONS[l.i].color}"></i>`:'';
+  const dot=l.k==='faction'?`<i style="background:${fc(l.i)}"></i>`:'';
   return editable?`<span class="nchip">${dot}${esc(lab||'(hidden)')}<button data-nunlink="${j}" aria-label="Remove link">&times;</button></span>`:`<button class="nchip" data-nlink="${j}" data-sid="${esc(s.id)}">${dot}${esc(lab)}</button>`;}).join('');}
 
 /* ---------- views ---------- */
@@ -3198,8 +3234,9 @@ function newDraft(){const c=curCamp().clock;return{id:nid(),title:'',dek:'',body
 async function saveDraftStory(d,quiet){d.updated=new Date().toISOString();try{await store.newsDraft.doc(d.id).set({...d});if(!quiet)toast('Draft saved.');return true;}catch(e){writeFailed(e);return false;}}
 async function publishStory(d){
   if(!d.title.trim()){toast('Give the story a headline first.');return false;}
-  const at=d.at||new Date().toISOString();const pub=storyPublic(d,at);
+  const at=d.at||new Date().toISOString();const pub=storyPublic(d,at);const first=!news.pub.some(x=>x.id===d.id);
   try{await store.newsPub.doc(d.id).set(pub);d.status='published';d.at=at;await saveDraftStory(d,true);}catch(e){writeFailed(e);return false;}
+  if(first)dNotify('news',{...d,...pub,id:d.id});
   logEvent({kind:'news',label:d.title,summary:'Published a news story.'},false);return true;
 }
 async function takeDown(d){try{await store.newsPub.doc(d.id).delete();d.status='archived';await saveDraftStory(d,true);}catch(e){writeFailed(e);return;}logEvent({kind:'news',label:d.title,summary:'Took a news story down.'},false);}
@@ -3302,11 +3339,11 @@ function factionChart(groups){
   const max=Math.max(1,...pts.flatMap(p=>fs.map(i=>p.fac[i]|0)));const W=640,H=230,L=46,R=12,Tp=12,B=34;
   const x=k=>L+(W-L-R)*k/(pts.length-1),y=v=>Tp+(H-Tp-B)*(1-v/max);
   const grid=[0,0.25,0.5,0.75,1].map(t=>{const v=Math.round(max*t);return`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" class="cgrid"/><text x="${L-6}" y="${y(v)+4}" class="clab" text-anchor="end">${fmt(v)}</text>`;}).join('');
-  const lines=fs.map(i=>`<polyline fill="none" stroke="${FACTIONS[i].color}" stroke-width="2.2" points="${pts.map((p,k)=>`${x(k).toFixed(1)},${y(p.fac[i]|0).toFixed(1)}`).join(' ')}"><title>${esc(FACTIONS[i].short)}</title></polyline>`).join('');
+  const lines=fs.map(i=>`<polyline fill="none" stroke="${fc(i)}" stroke-width="2.2" points="${pts.map((p,k)=>`${x(k).toFixed(1)},${y(p.fac[i]|0).toFixed(1)}`).join(' ')}"><title>${esc(FACTIONS[i].short)}</title></polyline>`).join('');
   const step=Math.max(1,Math.ceil(pts.length/8));
   const xl=pts.map((p,k)=>k%step===0||k===pts.length-1?`<text x="${x(k)}" y="${H-12}" class="clab" text-anchor="middle">${esc(p.label)}</text>`:'').join('');
   return`<div class="chartwrap"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Planets held by each faction over time">${grid}${lines}${xl}</svg></div>
-    <div class="clegend">${fs.map(i=>`<span><i style="background:${FACTIONS[i].color}"></i>${esc(FACTIONS[i].short)} ${fmt(now[i]|0)}</span>`).join('')}</div>`;
+    <div class="clegend">${fs.map(i=>`<span><i style="background:${fc(i)}"></i>${esc(FACTIONS[i].short)} ${fmt(now[i]|0)}</span>`).join('')}</div>`;
 }
 function nProgress(){
   const gs=warGroups(),tr=planetTrajectories(gs);
@@ -3637,6 +3674,7 @@ async function saveResult(apply){
       body:[`${m.title} on ${p.name} ended in ${OUTCOME[r.outcome].toLowerCase()}.`,result.of?`The lance completed ${result.objectives} of ${result.of} objectives.`:'',vis.join(' '),o?`The action was part of ${o.name}.`:''].filter(Boolean).join('\n\n'),
       cat:'military',byline:'Galactic War News',links:[{k:'planet',i:m.planet}],status:'queued',fromSync:false};
     await saveDraftStory(st,true);}
+  if(m.status==='available'||m.status==='locked'||m.status==='completed'||m.status==='failed')dNotify('result',{m,outcome:r.outcome,players:r.players,objectives:result.objectives,of:result.of});
   logEvent({kind:'news',label:`Result: ${m.title}`,summary:`${OUTCOME[r.outcome]} recorded${applied?`, ${applied} planet change${applied===1?'':'s'} added to the draft`:''}.`},false);
   ops.rec=null;renderDossier();updateSyncUI();
   toast(`${OUTCOME[r.outcome]} recorded.${applied?' The galaxy changes are in your draft; sync to make them live.':''}`);
@@ -3751,7 +3789,7 @@ function pressureFor(m,outcome){const p=planets[m.planet],t=T.terr[p.sector];if(
 function setPressure(tid,v){if(!T.gx.pr)T.gx.pr={};if(v)T.gx.pr[tid]=clamp(Math.round(v),-100,100);else delete T.gx.pr[tid];T.rev=newRev();scheduleSave();refreshAll();}
 function rivalOf(t){let best=-1,bs=0;t.share.forEach((v,f)=>{if(f!==t.owner&&f!==UNK&&v>bs){bs=v;best=f;}});return best>=0?best:(t.borders.find(f=>f!==UNK)??-1);}
 function pressureBar(t){const v=prOf(t.id),rival=rivalOf(t);
-  return`<div class="prbar" title="Front pressure ${v}"><span class="prl">${esc(FACTIONS[rival]?FACTIONS[rival].short:'Rivals')}</span><div class="prtrack"><i class="prmid"></i><i class="prfill" style="${v>=0?`left:50%;width:${v/2}%;background:${FACTIONS[t.owner].color}`:`right:50%;width:${-v/2}%;background:${FACTIONS[rival]?FACTIONS[rival].color:'#FF6B4A'}`}"></i></div><span class="prr">${esc(FACTIONS[t.owner].short)}</span></div>
+  return`<div class="prbar" title="Front pressure ${v}"><span class="prl">${esc(FACTIONS[rival]?FACTIONS[rival].short:'Rivals')}</span><div class="prtrack"><i class="prmid"></i><i class="prfill" style="${v>=0?`left:50%;width:${v/2}%;background:${fc(t.owner)}`:`right:50%;width:${-v/2}%;background:${FACTIONS[rival]?fc(rival):'#FF6B4A'}`}"></i></div><span class="prr">${esc(FACTIONS[t.owner].short)}</span></div>
   <p class="dim">${v===0?'The front is balanced.':v>0?`Pushing towards ${esc(FACTIONS[t.owner].short)}: ${v} of 100.`:`Pushing towards ${esc(FACTIONS[rival]?FACTIONS[rival].short:'rivals')}: ${-v} of 100.`} Results in this territory move it. At 100 a planet changes hands.</p>`;}
 
 /* ---------- major orders ---------- */
@@ -3792,8 +3830,8 @@ async function endEvent(ev,undo){
   if(undo&&ev.prev){const map={};for(const k of Object.keys(ev.prev)){const v=ev.prev[k];if(v&&typeof v==='object')map[k]={s:v.s,th:v.th,f:v.f};}applyChanges(map,{reason:`Event ended: ${ev.name}`,pub:true});}
   const ne={...ev,status:'ended',pubPending:true};try{await store.evGM.doc(ev.id).set(ne);}catch(e){writeFailed(e);return;}toast(`${ev.name} ended.${undo?' Its changes are reversed in the draft.':''} Players see this when you sync.`);
 }
-async function publishPendingEvents(){if(!store.evGM)return 0;let n=0;for(const e of war.eventsGM.filter(x=>x.pubPending)){const{prev,pubPending,...pub}=e;try{await store.evPub.doc(e.id).set(pub);await store.evGM.doc(e.id).set({...e,pubPending:false});n++;}catch(err){}}return n;}
-async function saveOrder(o){try{await store.ordGM.doc(o.id).set(o);if(o.status==='withdrawn')await store.ordPub.doc(o.id).delete();else await store.ordPub.doc(o.id).set(o);return true;}catch(e){writeFailed(e);return false;}}
+async function publishPendingEvents(){if(!store.evGM)return 0;let n=0;for(const e of war.eventsGM.filter(x=>x.pubPending)){const{prev,pubPending,...pub}=e;const was=war.events.find(x=>x.id===e.id);try{await store.evPub.doc(e.id).set(pub);await store.evGM.doc(e.id).set({...e,pubPending:false});n++;if(!was||was.status!==e.status)dNotify('event',e);}catch(err){}}return n;}
+async function saveOrder(o){const was=war.ordersGM.find(x=>x.id===o.id);try{await store.ordGM.doc(o.id).set(o);if((!was&&o.status==='active')||(was&&was.status==='active'&&(o.status==='success'||o.status==='failed')))dNotify('order',o);if(o.status==='withdrawn')await store.ordPub.doc(o.id).delete();else await store.ordPub.doc(o.id).set(o);return true;}catch(e){writeFailed(e);return false;}}
 
 /* ---------- suggested consequences ---------- */
 function computeSuggestions(){
@@ -3929,7 +3967,7 @@ function drawBattles(px1,v,s){
   if(!layers.battles)return;
   for(const b of battleList()){if(b.status!=='active')continue;const p=battleSpot(b);if(!p||!inV(p.x,p.y,v))continue;
     const r=7*px1,A=FACTIONS[b.attacker],D=FACTIONS[b.defender];
-    ctx.fillStyle='rgba(4,14,28,0.85)';ctx.beginPath();ctx.arc(p.x,p.y,r*1.5,0,TAU);ctx.fill();
+    ctx.fillStyle=MP.disc;ctx.beginPath();ctx.arc(p.x,p.y,r*1.5,0,TAU);ctx.fill();
     ctx.lineWidth=2.2*px1;ctx.strokeStyle=A?A.color:'#FF6B4A';ctx.beginPath();ctx.moveTo(p.x-r,p.y-r);ctx.lineTo(p.x+r,p.y+r);ctx.stroke();
     ctx.strokeStyle=D?D.color:'#8FC1E3';ctx.beginPath();ctx.moveTo(p.x+r,p.y-r);ctx.lineTo(p.x-r,p.y+r);ctx.stroke();
     ctx.lineWidth=1.4*px1;ctx.strokeStyle='#FF6B4A';ctx.beginPath();ctx.arc(p.x,p.y,r*1.5,0,TAU);ctx.stroke();
@@ -3953,7 +3991,7 @@ function newBattleFor(kind,ref){const c=nowClock();
   const def=effOf(draftOV,pi).f,att=sy.rivals.find(f=>f!==UNK&&f!==def)??(def===5?0:5);
   return{id:'b'+Date.now().toString(36),name:`Battle of ${st.length?effOf(draftOV,pi).n:sy.name}`,desc:'',kind:'system',lane:'',sys:ref,planet:pi,attacker:att,defender:def,as:5,ds:5,mom:0,status:'active',outcome:'',start:{...c},end:null,pubPending:true,notes:''};}
 async function saveBattle(b,quiet){try{await store.btGM.doc(b.id).set({...b});if(!quiet)toast('Battle saved.');return true;}catch(e){writeFailed(e);return false;}}
-async function announceBattle(b){const{notes,pubPending,...pub}=b;try{await store.btPub.doc(b.id).set(pub);await store.btGM.doc(b.id).set({...b,pubPending:false});return true;}catch(e){writeFailed(e);return false;}}
+async function announceBattle(b){const{notes,pubPending,...pub}=b;const was=bts.pub.find(x=>x.id===b.id);if((!was&&b.status==='active')||(was&&was.status!=='resolved'&&b.status==='resolved'))dNotify('battle',b);try{await store.btPub.doc(b.id).set(pub);await store.btGM.doc(b.id).set({...b,pubPending:false});return true;}catch(e){writeFailed(e);return false;}}
 async function publishPendingBattles(){if(!store.btGM)return 0;let n=0;for(const b of bts.gm.filter(x=>x.pubPending))if(await announceBattle(b))n++;return n;}
 
 /* ---------- resolving a battle ---------- */
@@ -4145,7 +4183,7 @@ function drawBodies(px1,v,s,z){
       if(b.type!=='belt'){const sp=softSprite({...b,type:'dust',c:b.c});ctx.globalAlpha*=0.5;ctx.drawImage(sp,-b.rx*1.2,-b.ry*1.2,b.rx*2.4,b.ry*2.4);ctx.globalAlpha=b.vis==='hidden'?0.45:1;}
       const rs=rocks(b),base=Math.max(1.1,Math.min(3.2,1+z*0.25))*px1;ctx.fillStyle=b.type==='debris'?'#AAB4BE':hexA(b.c,0.95);ctx.beginPath();
       for(const[x,y,sz]of rs){const rr=base*sz;ctx.moveTo(x*b.rx+rr,y*b.ry);ctx.arc(x*b.rx,y*b.ry,rr,0,TAU);}ctx.fill();
-      if(b.type==='debris'){ctx.fillStyle='rgba(255,181,71,0.9)';ctx.beginPath();for(const[x,y,sz,k]of rs)if(k>0.9){ctx.moveTo(x*b.rx+base,y*b.ry);ctx.arc(x*b.rx,y*b.ry,base,0,TAU);}ctx.fill();}}
+      if(b.type==='debris'){ctx.fillStyle=`rgba(${SIG},0.9)`;ctx.beginPath();for(const[x,y,sz,k]of rs)if(k>0.9){ctx.moveTo(x*b.rx+base,y*b.ry);ctx.arc(x*b.rx,y*b.ry,base,0,TAU);}ctx.fill();}}
     else{const sp=softSprite(b),k=b.type==='blackhole'?1.25:1.15;ctx.drawImage(sp,-b.rx*k,-b.ry*k,b.rx*2*k,b.ry*2*k);}
     if(sel&&sel.kind==='body'&&sel.i===b.id){ctx.strokeStyle=SIGNAL;ctx.lineWidth=1.6*px1;ctx.setLineDash([6*px1,4*px1]);ctx.beginPath();ctx.ellipse(0,0,b.rx,b.ry,0,0,TAU);ctx.stroke();ctx.setLineDash([]);}
     ctx.restore();}
@@ -4154,7 +4192,7 @@ function drawBodies(px1,v,s,z){
 function labelBodies(s,txt){
   if(!layers.bodies||!layers.labels)return;ctx.textAlign='center';ctx.textBaseline='middle';
   for(const b of bodies()){const c=bodyCenter(b),pxSize=Math.max(b.rx,b.ry)*s;if(pxSize<28||pxSize>W*1.4)continue;const[x,y]=w2s(c.x,c.y+(b.type==='belt'?b.ry+30/s:0));if(x<-100||x>W+100||y<-30||y>H+30)continue;
-    ctx.font=`italic 500 ${clamp(pxSize*0.12,11,15)}px "Saira","Saira Condensed",sans-serif`;ctx.fillStyle=hexA(b.c,0.95);ctx.globalAlpha=b.vis==='hidden'?0.6:1;txt(b.name+(gm&&b.vis==='hidden'?' (hidden)':''),x,y);}
+    ctx.font=`italic 500 ${clamp(pxSize*0.12,11,15)}px "Saira","Saira Condensed",sans-serif`;ctx.fillStyle=hexA(themeShade(b.c),0.95);ctx.globalAlpha=b.vis==='hidden'?0.6:1;txt(b.name+(gm&&b.vis==='hidden'?' (hidden)':''),x,y);}
   ctx.globalAlpha=1;
 }
 
@@ -4232,7 +4270,7 @@ async function initFirebase(cfg){
 /* Firestore cannot store an array directly inside another array, so those are wrapped on the way in and unwrapped on the way out. */
 function fbEnc(v){if(Array.isArray(v))return v.map(x=>Array.isArray(x)?{__a:fbEnc(x)}:fbEnc(x));if(v&&typeof v==='object'){const o={};for(const k of Object.keys(v))if(v[k]!==undefined)o[k]=fbEnc(v[k]);return o;}return v;}
 function fbDec(v){if(Array.isArray(v))return v.map(fbDec);if(v&&typeof v==='object'){const ks=Object.keys(v);if(ks.length===1&&ks[0]==='__a'&&Array.isArray(v.__a))return fbDec(v.__a);const o={};for(const k of ks)o[k]=fbDec(v[k]);return o;}return v;}
-function mapFbErr(e){const c=(e&&e.code)||'';return{code:c==='permission-denied'||c==='unauthenticated'?'invalid_argument':c==='resource-exhausted'?'quota_exceeded':'unavailable',message:String((e&&e.message)||e)};}
+function mapFbErr(e){const c=(e&&e.code)||'';return{code:c==='permission-denied'||c==='unauthenticated'?'invalid_argument':c==='resource-exhausted'?'resource_exhausted':'unavailable',message:String((e&&e.message)||e)};}
 function makeFirebaseDB(fs){
   const md={fromCache:false,hasPendingWrites:false};
   const wrapDoc=s=>({id:s.id,exists:!!s.exists,data:()=>s.exists?fbDec(s.data()):undefined,metadata:s.metadata||md});
@@ -4313,6 +4351,313 @@ function backupHTML(){if(!store.canWrite)return'';return`<section class="wrcard 
   <p class="dim">A backup holds every campaign: live and draft galaxies, history, news, missions, operations, orders, events, battles and GM notes. Snapshots are left out to keep it small. Import a backup here, or on a self-hosted copy, to restore or move the map.</p>
   <div class="actions"><button class="btn primary" data-wr="export">Download a backup</button><button class="btn" data-wr="import">Import a backup</button></div></section>`;}
 
+/* ============================================================
+   SAVE SLOTS: whole-campaign saves kept in the database
+   Each save is JSON, gzip-compressed, base64-encoded, split into
+   chunks under the 256 KB document limit, checksummed with SHA-256,
+   and only listed once every chunk is written.
+   ============================================================ */
+const SAVE_FMT='gw-save',SAVE_V=1,CHUNK=180000,AUTO_KEEP=10;
+const SV_DOCS=['terr','draftT','draftMeta','syncT','gm','engine'],SV_SHARDS=['shard','draftS','syncS'];
+const SV_COLS=['events','gmEvents','newsPub','newsDraft','mPub','mGM','mTpl','oPub','oGM','sess','ordPub','ordGM','evPub','evGM','btPub','btGM'];
+const saves={list:[],busy:false,progress:'',autoDaily:true};
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function dbRetry(fn){let d=500;for(let k=0;;k++){try{return await fn();}catch(e){const c=e&&e.code;
+  if(c==='resource_exhausted'&&k<6){await sleep(d+Math.random()*d);d*=2;continue;}
+  if(c==='unavailable'&&k<2){await sleep(400+Math.random()*600);continue;}throw e;}}}
+const savesCol=cid=>P(cid).gm+'/saves';
+function watchSaves(gmOK,sub){saves.list=[];if(!gmOK)return;
+  sub(store.db.collection(savesCol(CAMP.cur)).orderBy('at','desc').limit(200).onSnapshot(q=>{saves.list=q.docs.map(d=>({id:d.id,...d.data()})).filter(x=>x&&x.v===SAVE_V);renderWR();},()=>{}));}
+/* -- encoding -- */
+async function sha256(text){if(!(window.crypto&&crypto.subtle))return'';const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
+function bytesToB64(u){let s='';for(let i=0;i<u.length;i+=0x8000)s+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(s);}
+function b64ToBytes(b){const s=atob(b),u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u;}
+async function pack(text){
+  if(typeof CompressionStream==='function'){try{const cs=new Blob([text]).stream().pipeThrough(new CompressionStream('gzip'));const u=new Uint8Array(await new Response(cs).arrayBuffer());return{enc:'gzip-b64',data:bytesToB64(u)};}catch(e){}}
+  return{enc:'b64',data:bytesToB64(new TextEncoder().encode(text))};}
+async function unpack(enc,data){const u=b64ToBytes(data);
+  if(enc==='gzip-b64'){if(typeof DecompressionStream!=='function')throw new Error('This browser cannot open compressed saves. Try a current version of Chrome, Edge, Firefox or Safari.');
+    try{const ds=new Blob([u]).stream().pipeThrough(new DecompressionStream('gzip'));return await new Response(ds).text();}catch(e){throw new Error('This save is damaged and cannot be loaded.');}}
+  return new TextDecoder().decode(u);}
+/* -- gathering and applying a campaign -- */
+async function gatherCampaign(cid){
+  const p=P(cid),docs={},cols={};let n=0;
+  const grab=async(role,path)=>{try{const s=await dbRetry(()=>store.db.doc(path).get());if(s.exists){docs[role]=s.data();n++;}}catch(e){}};
+  for(const r of SV_DOCS)await grab(r,p[r]);
+  for(const r of SV_SHARDS)for(let k=0;k<NSH;k++)await grab(r+':'+k,p[r](k));
+  for(const c of SV_COLS){cols[c]={};try{const q=await dbRetry(()=>store.db.collection(p[c]).limit(1000).get());for(const d of q.docs){cols[c][d.id]=d.data();n++;}}catch(e){}
+    saves.progress=`Reading ${c}…`;renderSaveProgress();}
+  const camp=CAMP.list.find(c=>c.id===cid)||curCamp();
+  return{body:{format:SAVE_FMT,v:SAVE_V,at:new Date().toISOString(),campaign:{id:cid,name:camp.name,clock:{...camp.clock}},docs,cols},records:n};
+}
+const freshRev=()=>'L'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const stampRev=d=>d&&typeof d==='object'&&'rev' in d?{...d,rev:freshRev()}:d;
+async function applyCampaign(cid,body){
+  const p=P(cid);let w=0,del=0;const step=async fn=>{await dbRetry(fn);w++;if(w%20===0){saves.progress=`Writing… ${w} records`;renderSaveProgress();}await sleep(40);};
+  for(const r of SV_DOCS){const d=stampRev(body.docs[r]);if(d)await step(()=>store.db.doc(p[r]).set(d));else{try{const s=await store.db.doc(p[r]).get();if(s.exists){await step(()=>store.db.doc(p[r]).delete());del++;}}catch(e){}}}
+  for(const r of SV_SHARDS)for(let k=0;k<NSH;k++){const d=stampRev(body.docs[r+':'+k]),path=p[r](k);if(d)await step(()=>store.db.doc(path).set(d));else{try{const s=await store.db.doc(path).get();if(s.exists){await step(()=>store.db.doc(path).delete());del++;}}catch(e){}}}
+  for(const c of SV_COLS){const want=body.cols[c]||{};let have=[];try{have=(await dbRetry(()=>store.db.collection(p[c]).limit(1000).get())).docs.map(d=>d.id);}catch(e){}
+    for(const id of have)if(!(id in want)){await step(()=>store.db.collection(p[c]).doc(id).delete());del++;}
+    for(const[id,d]of Object.entries(want))await step(()=>store.db.collection(p[c]).doc(id).set(d));}
+  return{w,del};
+}
+/* -- making, reading and pruning saves -- */
+async function writeSave(cid,{name,note,kind}){
+  const{body,records}=await gatherCampaign(cid);const text=JSON.stringify(body),hash=await sha256(text),pk=await pack(text);
+  const id=new Date().toISOString().replace(/\D/g,'').slice(0,14)+'-'+Math.random().toString(36).slice(2,6),col=savesCol(cid),parts=Math.ceil(pk.data.length/CHUNK)||1;
+  const camp=CAMP.list.find(c=>c.id===cid)||curCamp();
+  const meta={v:SAVE_V,id,name:String(name||'Save').slice(0,60),note:String(note||'').slice(0,300),kind:kind==='auto'?'auto':'manual',at:body.at,by:myId||null,cycle:camp.clock.cycle,day:camp.clock.day,campaignName:camp.name,records,bytes:text.length,stored:pk.data.length,parts,hash,enc:pk.enc,status:'writing'};
+  await dbRetry(()=>store.db.doc(col+'/'+id).set(meta));
+  for(let i=0;i<parts;i++){saves.progress=`Storing part ${i+1} of ${parts}…`;renderSaveProgress();const part=pk.data.slice(i*CHUNK,(i+1)*CHUNK);
+    await dbRetry(()=>store.db.doc(`${col}/${id}/parts/${String(i).padStart(3,'0')}`).set({i,d:part}));}
+  await dbRetry(()=>store.db.doc(col+'/'+id).set({...meta,status:'complete'}));
+  if(meta.kind==='auto')pruneAutosaves(cid);
+  return meta;
+}
+async function readSave(cid,meta){
+  const col=savesCol(cid);let data='';
+  for(let i=0;i<meta.parts;i++){saves.progress=`Reading part ${i+1} of ${meta.parts}…`;renderSaveProgress();
+    const s=await dbRetry(()=>store.db.doc(`${col}/${meta.id}/parts/${String(i).padStart(3,'0')}`).get());if(!s.exists)throw new Error(`Part ${i+1} of this save is missing, so it cannot be loaded.`);data+=s.data().d;}
+  const text=await unpack(meta.enc,data);
+  if(meta.hash){const h=await sha256(text);if(h&&h!==meta.hash)throw new Error('This save failed its integrity check, so it was not loaded.');}
+  let body;try{body=JSON.parse(text);}catch(e){throw new Error('This save is damaged and cannot be loaded.');}if(!body||body.format!==SAVE_FMT||!body.docs||!body.cols)throw new Error('This is not a Galactic War save.');
+  return body;
+}
+async function deleteSave(cid,meta){const col=savesCol(cid);for(let i=0;i<(meta.parts||0);i++){try{await dbRetry(()=>store.db.doc(`${col}/${meta.id}/parts/${String(i).padStart(3,'0')}`).delete());}catch(e){}}await dbRetry(()=>store.db.doc(col+'/'+meta.id).delete());}
+async function pruneAutosaves(cid){const autos=saves.list.filter(s=>s.kind==='auto'&&s.status==='complete').sort((a,b)=>String(b.at).localeCompare(String(a.at)));for(const s of autos.slice(AUTO_KEEP))try{await deleteSave(cid,s);}catch(e){}}
+async function quiesce(){if(saveTimer){clearTimeout(saveTimer);saveTimer=null;await flush();}await planetSaveChain;if(typeof flushMeta==='function')try{await flushMeta();}catch(e){}}
+/* -- actions -- */
+async function saveNow(name,note){if(saves.busy)return;saves.busy=true;renderWR();
+  try{await quiesce();const m=await writeSave(CAMP.cur,{name,note,kind:'manual'});toast(`Saved "${m.name}": ${fmt(m.records)} records, ${fmtSize(m.stored)} stored.`);}
+  catch(e){saveError(e);}finally{saves.busy=false;saves.progress='';renderWR();}}
+async function autosave(reason){try{await quiesce();return await writeSave(CAMP.cur,{name:reason,kind:'auto'});}catch(e){return null;}}
+async function loadSave(meta,asNew){if(saves.busy)return;
+  const msg=asNew?`Load "${meta.name}" as a brand-new campaign? The current campaign is not touched.`:`Load "${meta.name}" from cycle ${meta.cycle}, day ${meta.day} over the current campaign? Everything changes back to how it was when it was saved: the live galaxy players see, your draft, history, news, missions and the rest. An autosave of the current state is made first, so you can undo this.`;
+  if(!confirm(msg))return;saves.busy=true;renderWR();
+  try{await quiesce();const body=await readSave(CAMP.cur,meta);
+    let target=CAMP.cur;
+    if(asNew){if(CAMP.list.length>=40){toast('That is the most campaigns this map can hold. Archive one first.');return;}
+      target='c'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+      CAMP.list.push({id:target,name:`${String(body.campaign.name||meta.name).slice(0,28)} (from save)`,status:'active',clock:{...body.campaign.clock},created:new Date().toISOString()});
+      if(!await saveCampaigns())return;}
+    else{const a=await autosave(`Before loading "${meta.name}"`);if(!a&&!confirm('The safety autosave could not be made. Load anyway?'))return;}
+    restoring=true;const r=await applyCampaign(target,body);
+    const c=CAMP.list.find(x=>x.id===target);if(c&&body.campaign&&body.campaign.clock){c.clock={cycle:body.campaign.clock.cycle|0||1,day:body.campaign.clock.day|0||1};await saveCampaigns();}
+    restoring=false;ownRevs.clear();connectCampaign(target);
+    logEvent({kind:'draft',label:`Loaded save: ${meta.name}`,summary:`${asNew?'Loaded into a new campaign':'Campaign restored'} from the save made ${when(meta.at)} (${r.w} records written, ${r.del} removed).`},false);
+    toast(asNew?`Loaded into a new campaign. You are now viewing it.`:`Loaded "${meta.name}". Ask any other GM with the map open to reload it.`);
+  }catch(e){saveError(e);}finally{restoring=false;saves.busy=false;saves.progress='';renderWR();}}
+function saveError(e){const c=e&&e.code;toast(c==='quota_exceeded'?'The database is full. Delete old saves, snapshots or campaigns, then try again.':c==='resource_exhausted'?'The database is busy. Wait a minute and try again.':c==='invalid_argument'?'This account cannot write to the map.':String((e&&e.message)||'The save could not be completed. Try again.'));}
+const fmtSize=n=>n>1e6?(n/1e6).toFixed(1)+' MB':Math.max(1,Math.round(n/1e3))+' KB';
+async function downloadSave(meta){if(saves.busy)return;saves.busy=true;renderWR();
+  try{const body=await readSave(CAMP.cur,meta);const text=JSON.stringify({...body,save:{name:meta.name,note:meta.note,cycle:meta.cycle,day:meta.day}});
+    const filename=`galactic-war-save-${String(meta.name).replace(/[^a-z0-9]+/gi,'-').slice(0,40).toLowerCase()}-${String(meta.at).slice(0,10)}.json`;
+    let dl=null;if(window.claude&&typeof window.claude.use==='function'){try{dl=await window.claude.use('downloads');}catch(e){}}
+    if(dl){try{await dl.save({filename,data:text});}catch(e){if(e&&e.code!=='declined')toast('The file could not be saved.');}}
+    else{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'application/json'}));a.download=filename;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},3000);}
+  }catch(e){saveError(e);}finally{saves.busy=false;saves.progress='';renderWR();}}
+async function uploadSave(file){
+  let body;try{body=JSON.parse(await file.text());}catch(e){toast('That file is not a Galactic War save.');return;}
+  if(body&&body.app==='galactic-war'){importAll(file);return;}
+  if(!body||body.format!==SAVE_FMT||!body.docs||!body.cols){toast('That file is not a Galactic War save.');return;}
+  if(saves.busy)return;saves.busy=true;renderWR();
+  try{const text=JSON.stringify({format:body.format,v:body.v,at:body.at,campaign:body.campaign,docs:body.docs,cols:body.cols});const hash=await sha256(text),pk=await pack(text);
+    const cid=CAMP.cur,id=new Date().toISOString().replace(/\D/g,'').slice(0,14)+'-'+Math.random().toString(36).slice(2,6),col=savesCol(cid),parts=Math.ceil(pk.data.length/CHUNK)||1,s=body.save||{};
+    const meta={v:SAVE_V,id,name:String(s.name||file.name.replace(/\.json$/,'')).slice(0,60),note:'Uploaded from a file',kind:'manual',at:body.at||new Date().toISOString(),by:myId||null,
+      cycle:(body.campaign&&body.campaign.clock&&body.campaign.clock.cycle)||1,day:(body.campaign&&body.campaign.clock&&body.campaign.clock.day)||1,campaignName:(body.campaign&&body.campaign.name)||'',records:Object.keys(body.docs).length+Object.values(body.cols).reduce((n,c)=>n+Object.keys(c).length,0),bytes:text.length,stored:pk.data.length,parts,hash,enc:pk.enc,status:'writing'};
+    await dbRetry(()=>store.db.doc(col+'/'+id).set(meta));for(let i=0;i<parts;i++)await dbRetry(()=>store.db.doc(`${col}/${id}/parts/${String(i).padStart(3,'0')}`).set({i,d:pk.data.slice(i*CHUNK,(i+1)*CHUNK)}));
+    await dbRetry(()=>store.db.doc(col+'/'+id).set({...meta,status:'complete'}));toast(`"${meta.name}" added to your saves. Load it from the list.`);
+  }catch(e){saveError(e);}finally{saves.busy=false;renderWR();}}
+$('#savefile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];e.target.value='';if(f)uploadSave(f);});
+function renderSaveProgress(){const el=$('#saveprog');if(el)el.textContent=saves.progress;}
+/* -- war room tab -- */
+function wrSaves(){
+  if(!store.canWrite)return'<p class="empty">Saves are for GMs.</p>';
+  const done=saves.list.filter(s=>s.status==='complete'),stuck=saves.list.filter(s=>s.status!=='complete'&&Date.now()-new Date(s.at).getTime()>10*60000);
+  const man=done.filter(s=>s.kind==='manual'),auto=done.filter(s=>s.kind==='auto'),total=done.reduce((n,s)=>n+(s.stored||0),0);
+  const row=s=>`<li class="saverow"><div><b>${esc(s.name)}</b>${s.kind==='auto'?' <span class="vis">Autosave</span>':''}<div class="dim">Cycle ${s.cycle}, day ${s.day}, saved ${esc(when(s.at))}${s.by?` by <span data-uid="${esc(s.by)}">${esc(nameOf(s.by))}</span>`:''}. ${fmt(s.records)} records, ${fmtSize(s.stored)}.</div>${s.note?`<div class="dim">${esc(s.note)}</div>`:''}</div>
+    <div class="actions"><button class="btn primary" data-sv="load" data-sid="${esc(s.id)}" ${saves.busy?'disabled':''}>Load</button><button class="btn" data-sv="fork" data-sid="${esc(s.id)}" ${saves.busy?'disabled':''}>Load as new campaign</button><button class="btn" data-sv="dl" data-sid="${esc(s.id)}" ${saves.busy?'disabled':''}>Download</button><button class="btn" data-sv="ren" data-sid="${esc(s.id)}">Rename</button><button class="btn danger" data-sv="del" data-sid="${esc(s.id)}" ${saves.busy?'disabled':''}>Delete</button></div></li>`;
+  return`<div class="wrgrid"><section class="wrcard span2"><h3>Save the campaign</h3><p class="dim">A save holds everything in ${esc(curCamp().name)}: the live galaxy, your draft, history, news, missions, operations, results, orders, events, battles, GM notes and the war clock. Saves are kept in the map's own database, compressed and checked, and only GMs can see them.</p>
+    <div class="form saveform"><label>Name<input type="text" id="svname" maxlength="60" placeholder="For example: End of the Cradle offensive"></label><label>Note (optional)<input type="text" id="svnote" maxlength="300"></label></div>
+    <div class="actions"><button class="btn primary" data-sv="save" ${saves.busy?'disabled':''}>${saves.busy?'Working…':'Save now'}</button><button class="btn" data-sv="upload" ${saves.busy?'disabled':''}>Add a save from a file</button><span class="dim" id="saveprog" aria-live="polite">${esc(saves.progress)}</span></div>
+    <label class="chk"><input type="checkbox" id="svauto" ${saves.autoDaily?'checked':''}> Autosave once a day when I sync</label>
+    <p class="dim">${man.length} save${man.length===1?'':'s'} and ${auto.length} autosave${auto.length===1?'':'s'}, ${fmtSize(total)} in total. The newest ${AUTO_KEEP} autosaves are kept. An autosave is always made before you load a save.</p></section>
+  <section class="wrcard span2"><h3>Your saves</h3>${man.length?`<ul class="saves">${man.map(row).join('')}</ul>`:'<p class="empty">No saves yet.</p>'}</section>
+  <section class="wrcard span2"><h3>Autosaves</h3>${auto.length?`<ul class="saves">${auto.map(row).join('')}</ul>`:'<p class="empty">No autosaves yet.</p>'}
+    ${stuck.length?`<p class="dim">${stuck.length} save${stuck.length===1?'':'s'} did not finish writing and cannot be loaded. <button class="lnk" data-sv="clean">Remove ${stuck.length===1?'it':'them'}</button></p>`:''}</section>
+  ${backupHTML()}</div>`;
+}
+$('#warroom').addEventListener('change',e=>{if(e.target.id==='svauto'){saves.autoDaily=e.target.checked;try{localStorage.setItem('gw-autosave',e.target.checked?'1':'0');}catch(x){}}});
+try{saves.autoDaily=localStorage.getItem('gw-autosave')!=='0';}catch(e){}
+$('#warroom').addEventListener('click',async e=>{const b=e.target.closest('[data-sv]');if(!b||!store.canWrite)return;const k=b.dataset.sv,s=saves.list.find(x=>x.id===b.dataset.sid);
+  if(k==='save'){const n=($('#svname').value||'').trim()||`Cycle ${curCamp().clock.cycle}, day ${curCamp().clock.day}`;saveNow(n,($('#svnote').value||'').trim());}
+  else if(k==='upload')$('#savefile').click();
+  else if(k==='load'&&s)loadSave(s,false);
+  else if(k==='fork'&&s)loadSave(s,true);
+  else if(k==='dl'&&s)downloadSave(s);
+  else if(k==='ren'&&s){const v=prompt('New name for this save',s.name);if(v&&v.trim())try{await dbRetry(()=>store.db.doc(savesCol(CAMP.cur)+'/'+s.id).set({...s,name:v.trim().slice(0,60)}));}catch(err){saveError(err);}}
+  else if(k==='del'&&s){if(confirm(`Delete the save "${s.name}"? This cannot be undone.`))try{await deleteSave(CAMP.cur,s);toast('Save deleted.');}catch(err){saveError(err);}}
+  else if(k==='clean'){for(const x of saves.list.filter(x=>x.status!=='complete'&&Date.now()-new Date(x.at).getTime()>10*60000))try{await deleteSave(CAMP.cur,{...x,parts:x.parts||0});}catch(err){}}});
+async function maybeDailyAutosave(){if(!saves.autoDaily)return;const last=saves.list.find(s=>s.kind==='auto'&&s.status==='complete'&&/^Daily/.test(s.name));
+  if(last&&Date.now()-new Date(last.at).getTime()<20*3600*1000)return;await autosave(`Daily autosave, cycle ${curCamp().clock.cycle} day ${curCamp().clock.day}`);}
+
+/* ============================================================
+   APPEARANCE: dark and light modes for the panels and the map
+   ============================================================ */
+function themeShade(hex){if(THEME.mode!=='light'||!/^#[0-9a-f]{6}$/i.test(hex||''))return hex;const[r,g,b]=hexToRgb(hex);
+  const L=(0.2126*r+0.7152*g+0.0722*b)/255;if(L<0.5)return hex;const t=Math.min(0.72,(L-0.42)*1.25),ink=[30,53,80];
+  return'#'+[r,g,b].map((v,i)=>Math.round(v*(1-t)+ink[i]*t).toString(16).padStart(2,'0')).join('');}
+function recolour(){FCOL=FACTIONS.map(f=>themeShade(f.color));FRGB=FCOL.map(c=>hexToRgb(c));SIG=hexToRgb(SIGNAL).join(',');}
+function resolveTheme(){return THEME.pref==='system'?(window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'):THEME.pref;}
+function applyTheme(first){
+  const mode=resolveTheme(),changed=mode!==THEME.mode;THEME.mode=mode;
+  document.documentElement.dataset.theme=mode;MP=mode==='light'?MP_LIGHT:MP_DARK;SIGNAL=MP.signal;LINE=MP.line;recolour();
+  const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.setAttribute('content',MP.bg);
+  document.querySelectorAll('[data-theme-pick]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.themePick===THEME.pref)));
+  const tb=$('#themebtn');if(tb){tb.setAttribute('aria-label',mode==='light'?'Switch to dark mode':'Switch to light mode');tb.title=tb.getAttribute('aria-label');tb.innerHTML=mode==='light'?MOON:SUN;}
+  if(first)return;
+  if(changed){glow=buildGlow();phCache.clear();fieldSig='';scheduleField();}
+  renderLegend();refreshAll();renderNews();renderWR();dirty=true;
+}
+function setThemePref(p){THEME.pref=p;try{localStorage.setItem('gw-theme',p);}catch(e){}applyTheme();}
+const SUN='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></g></svg>';
+const MOON='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M19.5 14.6A8 8 0 0 1 9.4 4.5a8 8 0 1 0 10.1 10.1Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>';
+$('#themebtn').addEventListener('click',()=>setThemePref(THEME.mode==='light'?'dark':'light'));
+document.addEventListener('click',e=>{const b=e.target.closest('[data-theme-pick]');if(b)setThemePref(b.dataset.themePick);});
+if(window.matchMedia){const mq=matchMedia('(prefers-color-scheme: light)');const on=()=>{if(THEME.pref==='system')applyTheme();};if(mq.addEventListener)mq.addEventListener('change',on);else if(mq.addListener)mq.addListener(on);}
+
+/* ============================================================
+   DISCORD: post news and galaxy updates to a channel webhook
+   The webhook address is kept in GM-only storage and messages are
+   sent from the GM's browser, so players never see it.
+   ============================================================ */
+const DC_KINDS={news:'News stories when they are published',sync:'Galaxy updates when you sync',planets:'Planets captured and invaded, when you sync',battle:'Space battles starting and ending',order:'Major orders issued and completed',event:'Galaxy events starting and ending',result:'Game results as you record them'};
+const DC_DEFAULT={url:'',name:'Galactic War News',role:'',kinds:{news:true,sync:true,planets:true,battle:true,order:true,event:true,result:false}};
+const DC_COL={military:0xE0892C,political:0x9B72E8,civilian:0x3FA35A,intelligence:0x2E9C8F,sync:0x5EB8FF,battle:0xE2553A,order:0xFFB547,event:0xB88CFF,result:0x6FD08C};
+const dc={cfg:{...DC_DEFAULT,kinds:{...DC_DEFAULT.kinds}},queue:[],timer:null,hold:0,last:'',lastErr:'',sending:false};
+const DC_RE=/^https:\/\/(?:(?:ptb|canary)\.)?discord(?:app)?\.com\/api\/webhooks\/\d{5,30}\/[\w-]{20,200}$/;
+const dcAvailable=()=>!!store.firebase&&!!store.canWrite;
+const siteURL=()=>location.origin+location.pathname;
+function watchDiscord(gmOK,sub){dc.cfg={...DC_DEFAULT,kinds:{...DC_DEFAULT.kinds}};store.dcRef=gmOK?store.db.doc(P(CAMP.cur).gm+'/meta/discord'):null;
+  if(store.dcRef)sub(store.dcRef.onSnapshot(s=>{const d=s.exists?s.data():null;if(d&&isOwn(d))return;dc.cfg=cleanDC(d);renderWR();},()=>{}));}
+function cleanDC(d){const o={...DC_DEFAULT,kinds:{...DC_DEFAULT.kinds}};if(!d||typeof d!=='object')return o;
+  if(typeof d.url==='string'&&DC_RE.test(d.url.trim()))o.url=d.url.trim();if(typeof d.name==='string'&&d.name.trim())o.name=d.name.trim().slice(0,80);
+  if(typeof d.role==='string'&&/^\d{5,30}$/.test(d.role))o.role=d.role;if(d.kinds&&typeof d.kinds==='object')for(const k of Object.keys(DC_KINDS))if(typeof d.kinds[k]==='boolean')o.kinds[k]=d.kinds[k];return o;}
+const clip=(s,n)=>{s=String(s||'');return s.length>n?s.slice(0,n-1)+'…':s;};
+const DC_MAX_ALERTS=8;
+function dcPlanetAlerts(visible){
+  if(!dcAvailable()||!dc.cfg.url||!dc.cfg.kinds.planets)return;
+  const caps=visible.filter(c=>'f' in c.next&&c.prev.f!==undefined&&c.prev.f!==c.next.f).map(c=>({c,type:'capture'}));
+  const inv=visible.filter(c=>!('f' in c.next&&c.prev.f!==c.next.f)&&c.next.s==='Invasion'&&c.prev.s!=='Invasion').map(c=>({c,type:'invasion'}));
+  const byV=(a,b)=>planets[b.c.i].value-planets[a.c.i].value;caps.sort(byV);inv.sort(byV);
+  const ni=Math.min(inv.length,3,DC_MAX_ALERTS),nc=Math.min(caps.length,DC_MAX_ALERTS-ni),ni2=Math.min(inv.length,DC_MAX_ALERTS-nc);
+  for(const x of caps.slice(0,nc))dNotify('planets',x);for(const x of inv.slice(0,ni2))dNotify('planets',x);
+  const rest=caps.slice(nc).concat(inv.slice(ni2));if(!rest.length)return;
+  const rc=rest.filter(x=>x.type==='capture'),ri=rest.filter(x=>x.type==='invasion');const lines=[];
+  for(const x of rc.slice(0,30)){const a=FACTIONS[x.c.prev.f],b=FACTIONS[x.c.next.f];lines.push(`- ${effOf(draftOV,x.c.i).n}: ${a?a.short:'?'} → ${b?b.short:'?'}`);}
+  if(rc.length>30)lines.push(`- and ${rc.length-30} more`);
+  if(ri.length)lines.push(`Under invasion: ${ri.slice(0,25).map(x=>effOf(draftOV,x.c.i).n).join(', ')}${ri.length>25?` and ${ri.length-25} more`:''}`);
+  dNotify('planetsMore',{title:[rc.length?`${rc.length} more planet${rc.length===1?'':'s'} changed hands`:'',ri.length?`${ri.length} more invasion${ri.length===1?'':'s'}`:''].filter(Boolean).join(', '),lines});
+}
+const ck=()=>{const c=curCamp().clock;return`${curCamp().name}, cycle ${c.cycle}, day ${c.day}`;};
+/* ---------- building messages ---------- */
+function dcEmbed(kind,x){
+  const base={timestamp:new Date().toISOString(),footer:{text:clip(ck(),200)}};
+  if(kind==='news'){const s=x;return{...base,color:DC_COL[s.cat]||DC_COL.military,author:{name:clip(`${NCATS[s.cat]||'News'}${s.byline?' | '+s.byline:''}`,250)},title:clip(s.title,250),url:`${siteURL()}#story=${encodeURIComponent(s.id)}`,
+    description:clip([s.dek,s.body?String(s.body).split(/\n\s*\n/)[0]:''].filter(Boolean).join('\n\n'),900)};}
+  if(kind==='sync'){const lines=[];
+    for(const[id,v]of Object.entries(x.tstat||{})){const t=x.truthT.terr.find(z=>z.id===id);if(t&&t.visibility==='visible')lines.push(`- **${t.name}** is now ${String(v[1]).toLowerCase()}, was ${String(v[0]).toLowerCase()}`);}
+    const fl=x.visible.filter(c=>'f' in c.next).sort((a,b)=>planets[b.i].value-planets[a.i].value);
+    if(dc.cfg.kinds.planets&&fl.length)lines.push(`- ${fl.length} planet${fl.length===1?'':'s'} changed hands`);
+    else for(const c of fl.slice(0,6)){const e=effOf(draftOV,c.i),a=FACTIONS[c.prev.f],b=FACTIONS[c.next.f];lines.push(`- **${e.n}**: ${a?a.short:'unknown'} → ${b?b.short:'unknown'}${c.next.s?`, ${String(c.next.s).toLowerCase()}`:''}`);}
+    const st=x.visible.filter(c=>!('f' in c.next)&&'s' in c.next).length;
+    if(fl.length>6&&!dc.cfg.kinds.planets)lines.push(`- and ${fl.length-6} more planets changed hands`);if(st)lines.push(`- ${st} planet${st===1?'':'s'} changed status`);
+    return{...base,color:DC_COL.sync,title:clip(x.label,250),url:siteURL(),description:clip(lines.join('\n')||`${x.visible.length} planet${x.visible.length===1?'':'s'} changed.`,1500)};}
+  if(kind==='battle'){const b=x,A=FACTIONS[b.attacker],D=FACTIONS[b.defender],done=b.status==='resolved';
+    return{...base,color:DC_COL.battle,author:{name:done?'Battle over':'Space battle'},title:clip(b.name,250),url:siteURL(),
+      description:clip(done?`${BT_O[b.outcome]||'The battle has ended'}. ${A?A.short:'Attackers'} against ${D?D.short:'defenders'} over ${battleWhere(b)}.`:`${A?A.short:'Attackers'} strike at ${D?D.short:'defenders'} over ${battleWhere(b)}.${b.desc?'\n\n'+b.desc:''}`,900)};}
+  if(kind==='order'){const o=x,pr=orderProgress(o),done=o.status!=='active';
+    return{...base,color:DC_COL.order,author:{name:done?`Major order ${o.status==='success'?'succeeded':'failed'}`:'New major order'},title:clip(o.title,250),url:siteURL(),
+      description:clip([o.desc,pr.label,o.deadline&&!done?`Deadline: cycle ${o.deadline.cycle}, day ${o.deadline.day}`:'',o.reward?`Reward: ${o.reward}`:''].filter(Boolean).join('\n'),900)};}
+  if(kind==='event'){const e=x,t=T.terr[tIndex.get(e.terr)];
+    return{...base,color:DC_COL.event,author:{name:e.status==='ended'?'Galaxy event over':'Galaxy event'},title:clip(e.name,250),url:siteURL(),
+      description:clip([e.desc,t?`${tName(t)}, ${e.planets.length} planet${e.planets.length===1?'':'s'} affected`:'',e.until&&e.status!=='ended'?`Until cycle ${e.until.cycle}, day ${e.until.day}`:''].filter(Boolean).join('\n'),900)};}
+  if(kind==='planets'){const{c,type}=x,p=planets[c.i],e=effOf(draftOV,c.i),sy=systems[p.system],t=T.terr[p.sector],where=`the ${sy.name} system${t&&visibleTo(t)?`, ${tName(t)}`:''}`;
+    const url=`${siteURL()}#planet=${c.i}`,why=draftMeta.why[c.i]?`\nReason: ${draftMeta.why[c.i]}`:'';
+    if(type==='capture'){const A=FACTIONS[c.prev.f],B=FACTIONS[c.next.f];const st=e.s?` It is now ${String(e.s).toLowerCase()}.`:'';
+      return{...base,color:parseInt(String(B?B.color:'#FFB547').slice(1),16)||DC_COL.order,author:{name:'Planet captured'},title:clip(A?`${e.n} falls to ${B?B.short:'unknown forces'}`:`${B?B.short:'Unknown forces'} take ${e.n}`,250),url,
+        description:clip(`${A?`${A.short} has lost ${e.n}`:`${e.n} has a new master`} in ${where}.${st}${why}`,900)};}
+    const H=FACTIONS[e.f],att=hostiles(p).filter(f=>f!==e.f),Atk=FACTIONS[att.includes(5)?5:att[0]];
+    return{...base,color:DC_COL.battle,author:{name:'Invasion'},title:clip(Atk?`${Atk.short} invades ${e.n}`:`Invasion of ${e.n}`,250),url,
+      description:clip(`${H?H.short+' forces':'The defenders'} on ${e.n}, in ${where}, are fighting off an invasion${Atk?` by ${Atk.short}`:''}.${why}`,900)};}
+  if(kind==='planetsMore'){return{...base,color:DC_COL.sync,author:{name:'Across the front'},title:clip(x.title,250),url:siteURL(),description:clip(x.lines.join('\n'),1800)};}
+  if(kind==='result'){const m=x.m,p=planets[m.planet];
+    return{...base,color:DC_COL.result,author:{name:'Game result'},title:clip(`${OUTCOME[x.outcome]}: ${m.title}`,250),url:siteURL(),
+      description:clip(`${SITREPS[m.sitrep]} mission on ${p&&!p.hv?p.name:'an unidentified world'}.${x.players?` ${x.players} players.`:''}${x.of?` ${x.objectives} of ${x.of} objectives completed.`:''}`,600)};}
+  return null;
+}
+function dNotify(kind,x){if(!dcAvailable()||!dc.cfg.url||!dc.cfg.kinds[kind==='planetsMore'?'planets':kind])return;try{const e=dcEmbed(kind,x);if(e)dc.queue.push(e);}catch(err){return;}dcSchedule();}
+function dcSchedule(){clearTimeout(dc.timer);if(dc.hold>0)return;dc.timer=setTimeout(dcFlush,1200);}
+function dcHold(){dc.hold++;}
+function dcRelease(){dc.hold=Math.max(0,dc.hold-1);if(!dc.hold&&dc.queue.length)dcSchedule();}
+async function dcFlush(){if(dc.sending||!dc.queue.length)return;dc.sending=true;
+  try{while(dc.queue.length){const batch=[];let size=0;while(dc.queue.length&&batch.length<10){const e=dc.queue[0],n=JSON.stringify(e).length;if(batch.length&&size+n>5500)break;batch.push(dc.queue.shift());size+=n;}
+      const payload={username:dc.cfg.name,embeds:batch,allowed_mentions:dc.cfg.role?{roles:[dc.cfg.role]}:{parse:[]}};if(dc.cfg.role)payload.content=`<@&${dc.cfg.role}>`;
+      await dcPost(dc.cfg.url,payload);dc.last=`Posted ${batch.length} update${batch.length===1?'':'s'} ${new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}.`;dc.lastErr='';}}
+  catch(e){dc.lastErr=String(e.message||e);dc.queue.length=0;toast(`Discord: ${dc.lastErr}`);logEvent({kind:'draft',label:'Discord message failed',summary:dc.lastErr},false);}
+  finally{dc.sending=false;renderWR();}}
+async function dcPost(url,payload){
+  const body=()=>{const fd=new FormData();fd.append('payload_json',JSON.stringify(payload));return fd;};
+  for(let k=0;k<3;k++){let r;
+    try{r=await fetch(url+'?wait=true',{method:'POST',body:body()});}
+    catch(e){try{await fetch(url,{method:'POST',body:body(),mode:'no-cors'});return'unconfirmed';}catch(e2){throw new Error('Could not reach Discord. Check the connection and try again.');}}
+    if(r.status===429){let w=2;try{w=(await r.json()).retry_after||2;}catch(e){}await sleep(Math.min(10,w)*1000+250);continue;}
+    if(r.status===401||r.status===404)throw new Error('Discord did not recognise the webhook. It may have been deleted. Paste a new webhook address.');
+    if(!r.ok){let m='';try{m=(await r.json()).message||'';}catch(e){}throw new Error(`Discord refused the message (${r.status}${m?': '+m:''}).`);}
+    return'ok';}
+  throw new Error('Discord is limiting messages right now. Try again in a minute.');
+}
+/* ---------- settings tab ---------- */
+function wrDiscord(){
+  if(!store.firebase)return`<div class="wrgrid"><section class="wrcard span2"><h3>Discord announcements</h3>
+    <p>Discord announcements need the self-hosted version of the war table. Pages on claude.ai are not allowed to contact other websites, so they cannot post to Discord.</p>
+    <p class="dim">Once you are running the hosting kit (GitHub Pages or Firebase), open this tab there to connect a channel. Your campaign moves across with a backup from the Saves tab.</p></section></div>`;
+  if(!store.canWrite)return'<p class="empty">Discord settings are for GMs.</p>';
+  const c=dc.cfg;
+  return`<div class="wrgrid"><section class="wrcard span2"><h3>Discord announcements</h3>
+    <p class="dim">Posts news and galaxy updates for ${esc(curCamp().name)} to a Discord channel. Messages are sent from a GM's browser when you publish or sync, and only include what players can already see.</p>
+    <div class="form dcform"><label>Channel webhook address<input type="password" id="dcurl" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/…" value="${esc(c.url)}"></label>
+    <label class="chk"><input type="checkbox" id="dcshow"> Show the address</label>
+    <div class="two"><label>Post as<input type="text" id="dcname" maxlength="80" value="${esc(c.name)}"></label><label>Ping a role (optional role ID)<input type="text" id="dcrole" inputmode="numeric" maxlength="30" value="${esc(c.role)}" placeholder="For example: 123456789012345678"></label></div>
+    <div class="flabel">Announce${Object.entries(DC_KINDS).map(([k,l])=>`<label class="chk"><input type="checkbox" data-dck="${k}" ${c.kinds[k]?'checked':''}> ${l}</label>`).join('')}</div></div>
+    <div class="actions"><button class="btn primary" data-dc="save">Save</button><button class="btn" data-dc="test" ${c.url?'':'disabled'}>Send a test message</button>${c.url?'<button class="btn danger" data-dc="clear">Disconnect</button>':''}</div>
+    <p class="dim" aria-live="polite">${dc.lastErr?`<b>Last attempt failed:</b> ${esc(dc.lastErr)}`:dc.last?esc(dc.last):c.url?'Connected. Nothing posted yet this session.':'Not connected.'}</p></section>
+  <section class="wrcard span2"><h3>Getting a webhook address</h3><ol class="steps">
+    <li>In Discord, open the channel's settings (the gear next to its name), then <b>Integrations</b>, then <b>Webhooks</b>.</li>
+    <li>Press <b>New Webhook</b>. Give it a name and picture if you like; the name here overrides it.</li>
+    <li>Press <b>Copy Webhook URL</b>, paste it above, and press Save.</li>
+    <li>To ping a role, turn on Developer Mode in Discord (Settings, Advanced), right-click the role in Server Settings, and press <b>Copy Role ID</b>.</li></ol>
+    <p class="dim">Treat the webhook address like a password: anyone who has it can post in that channel. It is stored where only GMs can read it. If it ever leaks, delete the webhook in Discord and make a new one.</p></section></div>`;
+}
+$('#warroom').addEventListener('change',e=>{if(e.target.id==='dcshow'){const i=$('#dcurl');if(i)i.type=e.target.checked?'text':'password';}});
+$('#warroom').addEventListener('click',async e=>{const b=e.target.closest('[data-dc]');if(!b||!store.dcRef)return;const k=b.dataset.dc;
+  if(k==='save'){const url=($('#dcurl').value||'').trim(),role=($('#dcrole').value||'').trim();
+    if(url&&!DC_RE.test(url)){toast('That does not look like a Discord webhook address. It should start with https://discord.com/api/webhooks/');return;}
+    if(role&&!/^\d{5,30}$/.test(role)){toast('A role ID is a long number. Leave it empty to post without pinging.');return;}
+    const kinds={};document.querySelectorAll('[data-dck]').forEach(x=>kinds[x.dataset.dck]=x.checked);
+    const cfg={url,name:($('#dcname').value||'').trim()||DC_DEFAULT.name,role,kinds,rev:newRev()};
+    try{await store.dcRef.set(cfg);dc.cfg=cleanDC(cfg);dc.lastErr='';toast(url?'Discord settings saved.':'Discord disconnected.');renderWR();}catch(err){writeFailed(err);}}
+  else if(k==='test'){if(!dc.cfg.url)return;b.disabled=true;
+    try{await dcPost(dc.cfg.url,{username:dc.cfg.name,allowed_mentions:{parse:[]},embeds:[{title:'The war table is connected',url:siteURL(),color:DC_COL.order,description:`News and galaxy updates for ${curCamp().name} will appear here.`,footer:{text:ck()},timestamp:new Date().toISOString()}]});
+      dc.last='Test message sent. Check the channel.';dc.lastErr='';toast('Test message sent. Check the channel.');}catch(err){dc.lastErr=String(err.message||err);toast(`Discord: ${dc.lastErr}`);}
+    renderWR();}
+  else if(k==='clear'){if(!confirm('Stop posting to Discord for this campaign?'))return;try{await store.dcRef.set({...DC_DEFAULT,url:'',rev:newRev()});dc.cfg=cleanDC(null);toast('Discord disconnected.');renderWR();}catch(err){writeFailed(err);}}});
+/* ---------- opening a story from a Discord link ---------- */
+let pendingPlanet=(()=>{const m=/^#planet=(\d{1,5})$/.exec(location.hash||'');return m?+m[1]:null;})();
+function openPendingPlanet(){if(pendingPlanet===null||!planets[pendingPlanet])return;const i=pendingPlanet;if(planets[i].hv)return;pendingPlanet=null;setView('map',true);select('planet',i,true);try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}}
+let pendingStory=(()=>{const m=/^#story=([\w-]{1,40})$/.exec(location.hash||'');return m?decodeURIComponent(m[1]):null;})();
+function openPendingStory(){if(!pendingStory)return;const id=pendingStory;if(!news.pub.some(s=>s.id===id))return;pendingStory=null;news.reading=id;setView('news',true);renderNews(true);try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}}
+
 /* ============ boot ============ */
 window.addEventListener('resize',()=>{resize();if(cam.s<minS)cam.s=minS;dirty=true;});
 for(const s of systems)s.baseFaction=s.faction;
@@ -4322,7 +4667,7 @@ if(window.innerWidth>760&&window.innerWidth<1280){document.body.classList.add('r
 document.body.classList.toggle('d-open',dossierShown());$('#dopen').classList.toggle('show',!dossierShown()&&window.innerWidth>760);$('#railtoggle').setAttribute('aria-expanded',String(railShown()));
 resize();
 const ins0=insets();cam.s=fitS;cam.x=-((ins0.l-ins0.r)/2)/cam.s;cam.y=-((ins0.t-ins0.b)/2)/cam.s;
-glow=buildGlow();
+applyTheme(true);glow=buildGlow();
 refreshAll();
 requestAnimationFrame(loop);
 scheduleField();
