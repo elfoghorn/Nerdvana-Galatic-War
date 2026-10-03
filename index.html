@@ -1176,7 +1176,7 @@ function loadView(){
 }
 
 /* ---------- campaigns ---------- */
-const CAMP={cur:'main',list:[{id:'main',name:'Main campaign',status:'active',clock:{cycle:1,day:1},created:''}],featured:'main',rev:null};
+const CAMP={cur:'main',list:[{id:'main',name:'Main campaign',status:'active',clock:{cycle:1,day:1},created:''}],featured:'main',rev:null,active:null};
 const LK=n=>CAMP.cur==='main'?'gw-'+n:`gw-${CAMP.cur}-${n}`;
 function P(cid){
   const m=cid==='main',g=m?'galaxy/gm':`gmc/${cid}`;
@@ -1194,10 +1194,11 @@ function parseCampaigns(d){
       clock:{cycle:clamp(parseInt(ck.cycle,10)||1,1,9999),day:clamp(parseInt(ck.day,10)||1,1,9999)},created:typeof c.created==='string'?c.created.slice(0,30):''});}
   if(!seen.has('main'))out.list.unshift({id:'main',name:'Main campaign',status:'active',clock:{cycle:1,day:1},created:''});
   out.featured=d&&typeof d.featured==='string'&&out.list.some(c=>c.id===d.featured&&c.status==='active')?d.featured:'main';
+  const a=d&&d.active;out.active=a&&typeof a==='object'&&typeof a.cid==='string'&&seen.has(a.cid)?{cid:a.cid,name:String(a.name||'Save').slice(0,60),at:String(a.at||'').slice(0,30),cycle:clamp(parseInt(a.cycle,10)||1,1,9999),day:clamp(parseInt(a.day,10)||1,1,9999)}:null;
   return out;
 }
 async function saveCampaigns(){
-  const body={list:CAMP.list.map(c=>({...c,clock:{...c.clock}})),featured:CAMP.featured,rev:CAMP.rev=newRev()};
+  const body={list:CAMP.list.map(c=>({...c,clock:{...c.clock}})),featured:CAMP.featured,active:CAMP.active||null,rev:CAMP.rev=newRev()};
   try{await store.db.doc('meta/campaigns').set(body);}catch(e){writeFailed(e);return false;}
   renderCampaignUI();return true;
 }
@@ -1256,6 +1257,16 @@ function cleanMeta(d){const out={quiet:{},why:{}};if(!d)return out;
 let metaTimer=null,metaSaving=false,metaRev=null;
 function saveDraftMeta(){if(restoring)return;clearTimeout(metaTimer);metaTimer=setTimeout(async()=>{metaTimer=null;if(!store.metaRef)return;metaSaving=true;metaRev=newRev();try{await store.metaRef.set({...draftMeta,rev:metaRev});}catch(e){}metaSaving=false;},600);}
 function loadLocal(){}
+/* A viewer (anyone without GM editing) always follows the save the GM made active,
+   and switches when the GM changes which campaign is shown. */
+function followActive(prevAct,prevFeat){
+  const viewer=!store.canWrite||!gm,a=CAMP.active,fresh=!!a&&(!prevAct||prevAct.at!==a.at||prevAct.cid!==a.cid);
+  if(fresh){
+    if(viewer){try{localStorage.removeItem('gw-campaign');}catch(e){}connectCampaign(a.cid);toast(`The GM loaded "${a.name}" (cycle ${a.cycle}, day ${a.day}). You are now seeing it.`);return true;}
+    toast(`Another GM loaded "${a.name}". Reload the page before editing so you are working on it.`);return false;}
+  if(viewer&&CAMP.featured!==prevFeat&&CAMP.featured!==CAMP.cur){connectCampaign(CAMP.featured);toast(`Now showing ${curCamp().name}.`);return true;}
+  return false;
+}
 async function initStore(){
   try{const c=localStorage.getItem('gw-campaign');if(c)CAMP.cur=c;}catch(e){}
   const hadChoice=CAMP.cur!=='main',want=CAMP.cur;
@@ -1276,8 +1287,10 @@ async function initStore(){
   const start=hadChoice?want:lastFeat;connectCampaign(/^(main|c[a-z0-9]{1,22})$/.test(start)?start:'main');
   db.doc('meta/campaigns').onSnapshot(snap=>{
     const d=snap.exists?snap.data():null;if(!first&&d&&d.rev&&d.rev===CAMP.rev)return;
-    const pc=parseCampaigns(d);CAMP.list=pc.list;CAMP.featured=pc.featured;try{localStorage.setItem('gw-featured',pc.featured);}catch(e){}
-    if(first){first=false;let t=hadChoice?want:CAMP.featured;if(!CAMP.list.some(c=>c.id===t&&c.status==='active'))t=CAMP.featured;if(t!==CAMP.cur)connectCampaign(t);else renderCampaignUI();return;}
+    const prevAct=CAMP.active,prevFeat=CAMP.featured;
+    const pc=parseCampaigns(d);CAMP.list=pc.list;CAMP.featured=pc.featured;CAMP.active=pc.active;try{localStorage.setItem('gw-featured',pc.featured);}catch(e){}
+    if(!first&&followActive(prevAct,prevFeat))return;
+    if(first){first=false;let t=hadChoice&&!(CAMP.active&&(!store.canWrite||!gm))?want:CAMP.featured;if(!CAMP.list.some(c=>c.id===t&&c.status==='active'))t=CAMP.featured;if(t!==CAMP.cur)connectCampaign(t);else renderCampaignUI();return;}
     if(!CAMP.list.some(c=>c.id===CAMP.cur))connectCampaign(CAMP.featured);
     renderCampaignUI();
   },()=>{if(first){first=false;connectCampaign(want);}});
@@ -2470,7 +2483,7 @@ function accessHTML(){
   return`<p>You have GM access to this map.</p>
   <p><b>Add a GM:</b> open the Share menu and give them Editor access. Editors see GM tools and can change the galaxy.</p>
   <p><b>Players:</b> anyone you share the map with sees the player view. They need to be signed in to claude.ai; a signed-out screen shows the starting galaxy, not your campaign.</p>
-  <p><b>Shop screen:</b> shows ${esc(f?f.name:'the featured campaign')} unless someone picks another campaign on that device.</p>
+  <p><b>Shop screen:</b> shows ${esc(f?f.name:'the featured campaign')}${CAMP.active?`, from the save "${esc(CAMP.active.name)}"`:''}. Loading a save switches every open screen to it.</p>
   <p class="dim">Hidden planets and territories are left out of the player view, but someone determined could still read them from the page's data. GM notes and GM-only log entries are fully private to GMs.</p>`;
 }
 async function setClock(cycle,day,summary){
@@ -2568,6 +2581,7 @@ async function campaignAct(act,cid){
 function renderCampaignUI(){
   const c=curCamp();const multi=CAMP.list.filter(x=>x.status==='active').length>1||c.name!=='Main campaign';
   $('#clock').textContent=`Cycle ${c.clock.cycle}, day ${c.clock.day}`;
+  const act=CAMP.active&&CAMP.active.cid===c.id?CAMP.active:null;$('#clock').title=act?`Showing the save "${act.name}", loaded ${when(act.at)}`:'';
   const cn=$('#campname');cn.textContent=multi?c.name:'';cn.hidden=!multi;
   if(!sel&&!bulkOpen&&!formFocused())renderDossier();
   renderWR();renderNews();
@@ -4440,7 +4454,7 @@ async function saveNow(name,note){if(saves.busy)return;saves.busy=true;renderWR(
   catch(e){saveError(e);}finally{saves.busy=false;saves.progress='';renderWR();}}
 async function autosave(reason){try{await quiesce();return await writeSave(CAMP.cur,{name:reason,kind:'auto'});}catch(e){return null;}}
 async function loadSave(meta,asNew){if(saves.busy)return;
-  const msg=asNew?`Load "${meta.name}" as a brand-new campaign? The current campaign is not touched.`:`Load "${meta.name}" from cycle ${meta.cycle}, day ${meta.day} over the current campaign? Everything changes back to how it was when it was saved: the live galaxy players see, your draft, history, news, missions and the rest. An autosave of the current state is made first, so you can undo this.`;
+  const msg=asNew?`Load "${meta.name}" as a brand-new campaign? The current campaign is not touched, but the new one becomes the campaign everyone sees.`:`Load "${meta.name}" from cycle ${meta.cycle}, day ${meta.day} over the current campaign? It becomes the campaign everyone sees. Everything changes back to how it was when it was saved: the live galaxy players see, your draft, history, news, missions and the rest. An autosave of the current state is made first, so you can undo this.`;
   if(!confirm(msg))return;saves.busy=true;renderWR();
   try{await quiesce();const body=await readSave(CAMP.cur,meta);
     let target=CAMP.cur;
@@ -4450,10 +4464,11 @@ async function loadSave(meta,asNew){if(saves.busy)return;
       if(!await saveCampaigns())return;}
     else{const a=await autosave(`Before loading "${meta.name}"`);if(!a&&!confirm('The safety autosave could not be made. Load anyway?'))return;}
     restoring=true;const r=await applyCampaign(target,body);
-    const c=CAMP.list.find(x=>x.id===target);if(c&&body.campaign&&body.campaign.clock){c.clock={cycle:body.campaign.clock.cycle|0||1,day:body.campaign.clock.day|0||1};if(!asNew&&body.campaign.name)c.name=String(body.campaign.name).slice(0,40);await saveCampaigns();}
+    const c=CAMP.list.find(x=>x.id===target);if(c&&body.campaign&&body.campaign.clock){c.clock={cycle:body.campaign.clock.cycle|0||1,day:body.campaign.clock.day|0||1};if(!asNew&&body.campaign.name)c.name=String(body.campaign.name).slice(0,40);}
+    CAMP.featured=target;CAMP.active={cid:target,name:String(meta.name||'Save').slice(0,60),at:new Date().toISOString(),cycle:c?c.clock.cycle:meta.cycle,day:c?c.clock.day:meta.day};await saveCampaigns();
     restoring=false;ownRevs.clear();connectCampaign(target);
     logEvent({kind:'draft',label:`Loaded save: ${meta.name}`,summary:`${asNew?'Loaded into a new campaign':'Campaign restored'} from the save made ${when(meta.at)} (${r.w} records written, ${r.del} removed).`},false);
-    toast(asNew?`Loaded into a new campaign. You are now viewing it.`:`Loaded "${meta.name}". Ask any other GM with the map open to reload it.`);
+    toast(`Loaded "${meta.name}". It is now live for everyone with the link; anyone with the map open switches to it automatically.`);
   }catch(e){saveError(e);}finally{restoring=false;saves.busy=false;saves.progress='';renderWR();}}
 function saveError(e){const c=e&&e.code;toast(c==='quota_exceeded'?'The database is full. Delete old saves, snapshots or campaigns, then try again.':c==='resource_exhausted'?'The database is busy. Wait a minute and try again.':c==='invalid_argument'?'This account cannot write to the map.':String((e&&e.message)||'The save could not be completed. Try again.'));}
 const fmtSize=n=>n>1e6?(n/1e6).toFixed(1)+' MB':Math.max(1,Math.round(n/1e3))+' KB';
